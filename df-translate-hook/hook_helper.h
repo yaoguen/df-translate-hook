@@ -4,6 +4,8 @@
 #include <string>
 #include <cstdio>
 
+#define DEBUG 0    //Turn on debug printing 1 - enable; 0 - disable
+
 #define SETUP_ORIG_FUNC(nameFunc, shift) \
 	nameFunc nameFunc##_orig = (nameFunc)((UINT64)GetModuleHandle(0) + shift);
 
@@ -18,3 +20,5 @@ std::map<std::string, std::string> dictionary;
 
 void FillDictionary();
 BOOL DictSearch(char* text);
+
+void CreateDebugConsole();

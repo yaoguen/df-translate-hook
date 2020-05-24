@@ -9,7 +9,6 @@
 #endif // _M_IX86
 
 
-
 // Fix export ordinal #1
 extern "C" __declspec(dllexport)VOID NullExport(VOID)
 {
@@ -24,6 +23,10 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     {
     case DLL_PROCESS_ATTACH:
 	{
+#if DEBUG
+		CreateDebugConsole();
+#endif // DEBUG
+
 		DetourRestoreAfterWith();
 		DetourTransactionBegin();
 		DetourUpdateThread(GetCurrentThread());

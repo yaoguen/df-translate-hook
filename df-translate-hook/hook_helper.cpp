@@ -52,3 +52,16 @@ BOOL DictSearch(char* text)
 	return 1;
 }
 
+void CreateDebugConsole()
+{
+	FILE* fp = 0;
+	AllocConsole();
+	SetConsoleTitle(L"DF debugging console");
+
+	system("mode con cols=40 lines=20");
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+	SetConsoleOutputCP(1251);
+	COORD newSize = { 40,9999 };
+	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), newSize);
+}
+

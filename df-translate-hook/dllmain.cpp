@@ -1,6 +1,6 @@
 ﻿// dllmain.cpp : Определяет точку входа для приложения DLL.
 #include "pch.h"
-#include "detours.h"
+#include "hooked_functions.h"
 
 #ifdef _M_IX86
 #pragma comment (lib, "lib.X86/detours.lib")
@@ -27,6 +27,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		DetourRestoreAfterWith();
 		DetourTransactionBegin();
 		DetourUpdateThread(GetCurrentThread());
+
+		AttachFunctions();
 
 		DetourTransactionCommit();
 	}

@@ -1,4 +1,5 @@
 #pragma once
+#include "detours.h"
 #include "hook_helper.h"
 
 typedef char* (__cdecl* strncpyP)(char* Dest, char* Source, size_t Count);
@@ -10,3 +11,4 @@ typedef char* (__cdecl* strncpyP)(char* Dest, char* Source, size_t Count);
 	SETUP_ORIG_FUNC(strncpyP, 0xC780);
 #endif // _M_X64
 
+void AttachFunctions();

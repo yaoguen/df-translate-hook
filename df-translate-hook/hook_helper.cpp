@@ -51,3 +51,4 @@ BOOL DictSearch(char* text)
 	}
 	return 1;
 }
+

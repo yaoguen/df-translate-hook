@@ -24,12 +24,24 @@
     <ClInclude Include="detours.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="hooked_functions.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="hook_helper.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="hooked_functions.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="hook_helper.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

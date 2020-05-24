@@ -295,10 +295,14 @@
   <ItemGroup>
     <ClInclude Include="detours.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="hooked_functions.h" />
+    <ClInclude Include="hook_helper.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="hooked_functions.cpp" />
+    <ClCompile Include="hook_helper.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug64|Win32'">Create</PrecompiledHeader>

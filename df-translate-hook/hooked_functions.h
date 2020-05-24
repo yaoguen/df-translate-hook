@@ -1,5 +1,4 @@
 #pragma once
-#include <Windows.h>
 #include "hook_helper.h"
 
 typedef char* (__cdecl* strncpyP)(char* Dest, char* Source, size_t Count);

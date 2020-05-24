@@ -15,10 +15,6 @@
 #define h(nameFunc) nameFunc##_hook
 #define o(nameFunc) nameFunc##_orig
 
-
-std::map<std::string, std::string> dictionary;
-
 void FillDictionary();
 BOOL DictSearch(char* text);
-
 void CreateDebugConsole();

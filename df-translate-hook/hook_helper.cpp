@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "hook_helper.h"
 
+std::map<std::string, std::string> dictionary;
+
 void FillDictionary()
 {
 	FILE* ptrFile;

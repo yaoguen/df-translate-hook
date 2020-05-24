@@ -8,6 +8,11 @@
 #pragma comment (lib, "lib.X64/detours.lib")
 #endif // _M_IX86
 
+// Fix export ordinal #1
+extern "C" __declspec(dllexport)VOID NullExport(VOID)
+{
+}
+
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved

@@ -26,6 +26,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 #if DEBUG
 		CreateDebugConsole();
 #endif // DEBUG
+		FillDictionary();
 
 		DetourRestoreAfterWith();
 		DetourTransactionBegin();

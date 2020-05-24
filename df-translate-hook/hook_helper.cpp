@@ -44,7 +44,7 @@ void FillDictionary()
 	}
 }
 
-BOOL DictSearch(char* text)
+BOOL DictSearch(char*& text)
 {
 	if (dictionary.find(text) == dictionary.end()) {
 		return 0;

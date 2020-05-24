@@ -16,5 +16,5 @@
 #define o(nameFunc) nameFunc##_orig
 
 void FillDictionary();
-BOOL DictSearch(char* text);
+BOOL DictSearch(char*& text);
 void CreateDebugConsole();

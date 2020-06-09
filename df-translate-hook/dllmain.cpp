@@ -33,8 +33,9 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		DetourUpdateThread(GetCurrentThread());
 
 		AttachFunctions();
-
+		
 		DetourTransactionCommit();
+		ReworkFunctions();
 	}
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:

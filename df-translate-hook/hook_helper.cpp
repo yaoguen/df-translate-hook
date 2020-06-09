@@ -67,3 +67,28 @@ void CreateDebugConsole()
 	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), newSize);
 }
 
+inline void ChangeProtection(void* ptr, size_t size, DWORD& protection)
+{
+	VirtualProtect(ptr, size, protection, &protection);
+}
+
+void ChangeBytesAtAddr(PVOID addr, char bytes[], size_t size)
+{
+	if (size == 0) {
+		size = sizeof(bytes)/sizeof(char);
+	}
+
+	if ((PBYTE)addr == (PBYTE)0xFFFFFFFE)
+	{
+		MessageBoxA(NULL, "Адрес не действительный!", "Критическая ошибка!", MB_OK);
+		ExitProcess(1);
+	}
+	else
+	{
+		DWORD protection = PAGE_EXECUTE_READWRITE;
+		ChangeProtection(addr, size, protection);
+		memcpy(addr, bytes, size);
+		ChangeProtection(addr, size, protection);
+	}
+}
+

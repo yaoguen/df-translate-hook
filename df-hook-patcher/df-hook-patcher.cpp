@@ -138,22 +138,22 @@ int main() {
 
 
 
-	// Replacing "jmp rcx" with "jmp 0x14032d9e4"
-	// to bypass string length checking when reading index(hardcore) file
-#ifdef _M_IX86
-	PatchingBytesInEXE(exepath, 0x002b0b6d, new BYTE[7]{ 0xE9, 0x15, 0x03, 0x00, 0x00, 0x90, 0x90 }, 7);
-#elif _M_X64
-	PatchingBytesInEXE(exepath, 0x0032ca93, new BYTE[6]{ 0xE9, 0x4C, 0x03, 0x00, 0x00, 0x90 }, 6);
-#endif // _M_IX86
-
-
-	// Replacing "jz 0x140360e65" with "jmp	0x140360e65"
-	// to switch a special encryption for an index file to a regular one
-#ifdef _M_IX86
-	PatchingBytesInEXE(exepath, 0x002da2df, new BYTE[1]{ 0xEB }, 1);
-#elif _M_X64
-	PatchingBytesInEXE(exepath, 0x003601f7, new BYTE[1]{ 0xEB }, 1);
-#endif // _M_IX86
+//	// Replacing "jmp rcx" with "jmp 0x14032d9e4"
+//	// to bypass string length checking when reading index(hardcore) file
+//#ifdef _M_IX86
+//	PatchingBytesInEXE(exepath, 0x002b0b6d, new BYTE[7]{ 0xE9, 0x15, 0x03, 0x00, 0x00, 0x90, 0x90 }, 7);
+//#elif _M_X64
+//	PatchingBytesInEXE(exepath, 0x0032ca93, new BYTE[6]{ 0xE9, 0x4C, 0x03, 0x00, 0x00, 0x90 }, 6);
+//#endif // _M_IX86
+//
+//
+//	// Replacing "jz 0x140360e65" with "jmp	0x140360e65"
+//	// to switch a special encryption for an index file to a regular one
+//#ifdef _M_IX86
+//	PatchingBytesInEXE(exepath, 0x002da2df, new BYTE[1]{ 0xEB }, 1);
+//#elif _M_X64
+//	PatchingBytesInEXE(exepath, 0x003601f7, new BYTE[1]{ 0xEB }, 1);
+//#endif // _M_IX86
 
 	// Patching unicode table
 	BYTE bytes[] = { 0x5e, 0x04, 0x00, 0x00, 0xfa, 0x00, 0x00, 0x00, 0xf1, 0x00, 0x00, 0x00, 0x90, 0x04,

@@ -293,6 +293,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="csv_reader.h" />
     <ClInclude Include="detours.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="hooked_functions.h" />

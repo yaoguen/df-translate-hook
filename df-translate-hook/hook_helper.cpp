@@ -1,47 +1,12 @@
 #include "pch.h"
 #include "hook_helper.h"
+#include "csv_reader.h"
 
-std::map<std::string, std::string> dictionary;
+map<string, string> dictionary;
 
 void FillDictionary()
 {
-	FILE* ptrFile;
-	fopen_s(&ptrFile, "df_rus.csv", "r");
-	if (ptrFile != NULL)
-	{
-		std::string key = "";
-		std::string arg = "";
-		bool isKey = true;
-		do
-		{
-			char sym = fgetc(ptrFile);
-			if (isKey)
-			{
-				if (!strncmp(&sym, "\t", 1))
-				{
-					isKey = false;
-					arg.clear();
-					continue;
-				}
-				else if (!strncmp(&sym, "ÿ", 1)) { break; }
-				else { key.append(&sym, 1); }
-			}
-			else
-			{
-				if (!strncmp(&sym, "\n", 1))
-				{
-					dictionary.insert(make_pair(key, arg));
-					isKey = true;
-					key.clear();
-					arg.clear();
-					continue;
-				}
-				else { arg.append(&sym, 1); }
-			}
-		} while (true);
-
-		fclose(ptrFile);
-	}
+	readData("df_rus.csv", dictionary);
 }
 
 BOOL DictSearch(char*& text)

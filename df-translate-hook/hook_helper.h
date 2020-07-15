@@ -4,6 +4,9 @@
 #include <string>
 #include <cstdio>
 
+using std::string;
+using std::map;
+
 #define DEBUG 0    //Turn on debug printing 1 - enable; 0 - disable
 
 #define SETUP_ORIG_FUNC(nameFunc, shift) \

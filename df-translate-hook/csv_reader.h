@@ -10,16 +10,25 @@ using std::regex;
 using std::string;
 using std::ifstream;
 
-string &reprString(string& str) {
-    return str.replace(str.begin(), str.end(), "\\", R"(\\)")
-        .replace(str.begin(), str.end(), "\t", R"(\t)")
-        .replace(str.begin(), str.end(), "\r", R"(\r)")
-        .replace(str.begin(), str.end(), "\n", R"(\n)")
-        .replace(str.begin(), str.end(), "\"", R"(")");
+void Replace(string& subject, const string& search, const string& replace) {
+    size_t pos = 0;
+    while ((pos = subject.find(search, pos)) != string::npos) {
+        subject.replace(pos, search.length(), replace);
+        pos += replace.length();
+    }
+}
+
+string& reprString(string& str) {
+    Replace(str, R"(\\)", "\\");
+    Replace(str, R"(\t)", "\t");
+    Replace(str, R"(\r)", "\r");
+    Replace(str, R"(\n)", "\n");
+    Replace(str, R"(")", "\"");
+    return str;
 }
 
 void splitString(const string& fullstr, map<string, string>& dict) {
-    const regex re(R"r(^"(.*?)","(.*?)"$)r");
+    const regex re(R"r(^"(.*?)","(.*?)")r");
 
     smatch match;
     if (regex_search(fullstr, match, re)) {

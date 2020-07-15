@@ -1,10 +1,11 @@
 ﻿#include <windows.h>
-#include <tchar.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <filesystem>
+#include <fstream>
 
 #include "detours.h"
+
+using std::string;
+using std::ifstream;
 
 #ifdef _M_IX86
 #pragma comment (lib, "lib.X86/detours.lib")
@@ -42,7 +43,7 @@ static BOOL CALLBACK AddBywayCallback(PVOID pContext, LPCSTR pszFile, LPCSTR* pp
 	return TRUE;
 }
 
-void PatchingBytesInEXE(std::string exepath, DWORD offset, BYTE bytes[], DWORD size) {
+void PatchingBytesInEXE(string exepath, DWORD offset, BYTE bytes[], DWORD size) {
 	OVERLAPPED O_F;
 	DWORD size_write;
 
@@ -70,7 +71,7 @@ bool CreateExeWithDllImport(std::string& exepath, std::string& dllpath) {
 
 	PDETOUR_BINARY pBinary = NULL;
 
-	std::string tmp_path = exepath + "_tmp.exe";
+	string tmp_path = exepath + "_tmp.exe";
 
 	std::filesystem::copy_file(exepath, tmp_path);
 
@@ -113,30 +114,28 @@ bool CreateExeWithDllImport(std::string& exepath, std::string& dllpath) {
 }
 
 int main() {
-	std::string exepath = "Dwarf Fortress.exe";
-	std::string dllpath = "df-translate-hook.dll";
+	string exepath = "Dwarf Fortress.exe";
+	string dllpath = "df-translate-hook.dll";
 
-	FILE* fp;
+	ifstream fin;
 
 	printf("Exe Patcher\n");
 
-	fp = fopen(exepath.c_str(), "rb");
-	if (fp == NULL) {
+	fin.open(exepath, std::ios::binary);
+	if (!fin.is_open()) {
 		printf("Could not open Exe %s?\n", exepath.c_str());
 		system("pause");
 		return 0;
 	}
-	fclose(fp);
+	fin.close();
 
-	fp = fopen(dllpath.c_str(), "rb");
-	if (fp == NULL) {
+	fin.open(dllpath, std::ios::binary);
+	if (!fin.is_open()) {
 		printf("Could not open Dll %s?\n", dllpath.c_str());
 		system("pause");
 		return 0;
 	}
-	fclose(fp);
-
-
+	fin.close();
 
 //	// Replacing "jmp rcx" with "jmp 0x14032d9e4"
 //	// to bypass string length checking when reading index(hardcore) file

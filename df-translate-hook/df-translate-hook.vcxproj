@@ -298,6 +298,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="hooked_functions.h" />
     <ClInclude Include="hook_helper.h" />
+    <ClInclude Include="keybindings.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>

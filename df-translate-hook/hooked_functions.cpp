@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "hooked_functions.h"
+#include "keybindings.h"
 
 // Set address function from df.exe
 
@@ -18,16 +19,7 @@
 	SETUP_ORIG_FUNC(addst, 0x5e56a0);
 	void __fastcall h(addcoloredst)(char* gps, DWORD EDX, char* str, const char* colorstr)
 	{
-		struct {					// Структура данных string
-			union {
-				char buf[16];		// Либо массив символов
-				char* ptr;			// Либо указатель на строку
-			};
-			unsigned int len;
-			unsigned int capa;
-			int pad;
-		} string;
-
+		string_ string;
 		unsigned int slen = strlen(str);
 		string.len = slen;
 
@@ -60,16 +52,7 @@
 	SETUP_ORIG_FUNC(addcoloredst, 0x6EEA90);  // Искать по строке "REC"
 	void __fastcall h(addcoloredst)(char* gps, char* str, char* colorstr)
 	{
-		struct {					// Структура данных string
-			union {
-				char buf[16];		// Либо массив символов
-				char* ptr;			// Либо указатель на строку
-			};
-			unsigned __int64 len;
-			unsigned __int64 capa;
-			__int64 pad;
-		} string;
-
+		string_ string;
 		unsigned int slen = strlen(str);
 		string.len = slen;
 
@@ -96,6 +79,114 @@
 		h(addcoloredst)(gps, str, colorstr);
 	}
 
+	SETUP_ORIG_FUNC(count, 0x71050);
+	SETUP_ORIG_FUNC(resize, 0x713A0);
+	SETUP_ORIG_FUNC(clear, 0x710E0);
+	SETUP_ORIG_FUNC(standardstringentry, 0x7CF0C0);
+	char h(standardstringentry)(char* str_, int maxlen, unsigned int flag, char * events)
+	{
+		string_* str;
+		str = (string_*)str_;
+
+		unsigned char entry = -1;
+		unsigned char cont;
+		__int64 count_arg;
+		unsigned short int item;
+		if (flag & STRINGENTRY_LETTERS)
+		{
+			count_arg = INTERFACEKEY_STRING_A168;
+			if (o(count)(events, &count_arg)) entry = 168;//Ё
+			count_arg = INTERFACEKEY_STRING_A184;
+			if (o(count)(events, &count_arg)) entry = 184;//ё
+			cont = 'А'; // cyrillic A
+			for (item = INTERFACEKEY_STRING_A192; item <= INTERFACEKEY_STRING_A255; item++)//все русские буквы
+			{
+				count_arg = item;
+				if (o(count)(events, &count_arg)) entry = cont;
+				cont++;
+			}
+			cont = 'a';
+			for (item = INTERFACEKEY_STRING_A097; item <= INTERFACEKEY_STRING_A122; item++) // Маленькие английские буквы
+			{
+				count_arg = item;
+				if (o(count)(events, &count_arg)) entry = cont;
+				cont++;
+			}
+			cont = 'A';
+			for (item = INTERFACEKEY_STRING_A065; item <= INTERFACEKEY_STRING_A090; item++) // Большие английские буквы
+			{
+				count_arg = item;
+				if (o(count)(events, &count_arg)) entry = cont;
+				cont++;
+			}
+		}
+		if (flag & STRINGENTRY_SPACE)
+		{
+			count_arg = INTERFACEKEY_STRING_A032;
+			if (o(count)(events, &count_arg))entry = ' ';
+		}
+		count_arg = INTERFACEKEY_STRING_A000;
+		if (o(count)(events, &count_arg)) entry = '\x0';
+		if (flag & STRINGENTRY_NUMBERS)
+		{
+			cont = 0;
+			for (item = INTERFACEKEY_STRING_A048; item <= INTERFACEKEY_STRING_A057; item++) // Цифры
+			{
+				count_arg = item;
+				if (o(count)(events, &count_arg))entry = cont;
+				cont++;
+			}
+		}
+		if (flag & STRINGENTRY_SYMBOLS)
+		{
+			cont = 0;
+			for (item = INTERFACEKEY_STRING_A000; item <= INTERFACEKEY_STRING_A255; item++)
+			{
+				count_arg = item;
+				if (o(count)(events, &count_arg)) entry = cont;
+				cont++;
+			}
+		}
+
+		if (entry != -1)
+		{
+			if (entry == '\x0')
+			{
+				if (str->len > 0) o(resize)(str_, str->len - 1);
+			}
+			else
+			{
+				int cursor = str->len;
+				if (cursor >= maxlen) cursor = maxlen - 1;
+				if (cursor < 0) cursor = 0;
+
+				if (str->len < (__int64)cursor + 1) o(resize)(str_, (__int64)cursor + 1);
+
+				if (flag & STRINGENTRY_CAPS)
+				{
+					if (entry >= 'a' && entry <= 'z') entry += 'A' - 'a';
+					if (entry >= 'а' && entry <= 'я') entry += 'А' - 'а';
+					if (entry == 'ё') 				  entry += 'Ё' - 'ё';
+				}
+
+				if (str->capa >= 16) {
+					str->ptr[cursor] = entry;
+				}
+				else {
+					str->buf[cursor] = entry;
+				}
+				
+			}
+
+			o(clear)(events);
+
+			return 1;
+		}
+
+		return 0;
+	}
+
+
 #endif // _M_IX86
 
 void AttachFunctions()
@@ -105,6 +196,8 @@ void AttachFunctions()
 
 #ifdef _M_X64
 	ATTACH(addcoloredst_inline);
+	ATTACH(standardstringentry);
+	printf("%p", o(standardstringentry));
 #endif // _M_X64
 }
 

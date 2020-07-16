@@ -88,7 +88,7 @@
 		string_* str;
 		str = (string_*)str_;
 
-		unsigned char entry = -1;
+		unsigned char entry = 255;
 		unsigned char cont;
 		__int64 count_arg;
 		unsigned short int item;
@@ -148,7 +148,7 @@
 			}
 		}
 
-		if (entry != -1)
+		if (entry != 255)
 		{
 			if (entry == '\x0')
 			{

@@ -40,7 +40,7 @@
 	}
 #elif defined _M_X64
 	SETUP_ORIG_FUNC(strncpyP, 0xC780);
-	char* __cdecl h(strncpyP)(char* Dest, char* Source, int Count)
+	char* __cdecl h(strncpyP)(char* Dest, char* Source, size_t Count)
 	{
 		if (DictSearch(Source)) {
 			Count = strlen(Source);
@@ -83,10 +83,9 @@
 	SETUP_ORIG_FUNC(resize, 0x713A0);
 	SETUP_ORIG_FUNC(clear, 0x710E0);
 	SETUP_ORIG_FUNC(standardstringentry, 0x7CF0C0);
-	char h(standardstringentry)(char* str_, int maxlen, unsigned int flag, char * events)
+	char h(standardstringentry)(string_* str, int maxlen, unsigned int flag, char * events)
 	{
-		string_* str;
-		str = (string_*)str_;
+		char* str_i = str->capa >= 16 ? str->ptr : str->buf;
 
 		unsigned char entry = 255;
 		unsigned char cont;
@@ -98,25 +97,36 @@
 			if (o(count)(events, &count_arg)) entry = 168;//Ё
 			count_arg = INTERFACEKEY_STRING_A184;
 			if (o(count)(events, &count_arg)) entry = 184;//ё
-			cont = 'А'; // cyrillic A
-			for (item = INTERFACEKEY_STRING_A192; item <= INTERFACEKEY_STRING_A255; item++)//все русские буквы
+			cont = (BYTE)'А'; // cyrillic A
+			for (item = INTERFACEKEY_STRING_A192; item <= INTERFACEKEY_STRING_A255+5; item++)//все русские буквы
 			{
 				count_arg = item;
-				if (o(count)(events, &count_arg)) entry = cont;
+				if (o(count)(events, &count_arg))
+				{
+					entry = cont;
+					break;
+				}
 				cont++;
 			}
 			cont = 'a';
 			for (item = INTERFACEKEY_STRING_A097; item <= INTERFACEKEY_STRING_A122; item++) // Маленькие английские буквы
 			{
 				count_arg = item;
-				if (o(count)(events, &count_arg)) entry = cont;
+				if (o(count)(events, &count_arg))
+				{
+					entry = cont;
+					break;
+				}
 				cont++;
 			}
 			cont = 'A';
 			for (item = INTERFACEKEY_STRING_A065; item <= INTERFACEKEY_STRING_A090; item++) // Большие английские буквы
 			{
 				count_arg = item;
-				if (o(count)(events, &count_arg)) entry = cont;
+				if (o(count)(events, &count_arg)) {
+					entry = cont;
+					break;
+				}
 				cont++;
 			}
 		}
@@ -143,7 +153,11 @@
 			for (item = INTERFACEKEY_STRING_A000; item <= INTERFACEKEY_STRING_A255; item++)
 			{
 				count_arg = item;
-				if (o(count)(events, &count_arg)) entry = cont;
+				if (o(count)(events, &count_arg))
+				{
+					entry = cont;
+					break;
+				}
 				cont++;
 			}
 		}
@@ -152,7 +166,7 @@
 		{
 			if (entry == '\x0')
 			{
-				if (str->len > 0) o(resize)(str_, str->len - 1);
+				if (str->len > 0) o(resize)((char*)str, str->len - 1);
 			}
 			else
 			{
@@ -160,44 +174,213 @@
 				if (cursor >= maxlen) cursor = maxlen - 1;
 				if (cursor < 0) cursor = 0;
 
-				if (str->len < (__int64)cursor + 1) o(resize)(str_, (__int64)cursor + 1);
+				if (str->len < (__int64)cursor + 1) o(resize)((char*)str, (__int64)cursor + 1);
 
 				if (flag & STRINGENTRY_CAPS)
 				{
-					if (entry >= 'a' && entry <= 'z') entry += 'A' - 'a';
-					if (entry >= 'а' && entry <= 'я') entry += 'А' - 'а';
-					if (entry == 'ё') 				  entry += 'Ё' - 'ё';
+					if (entry >= 'a' && entry <= 'z') {
+						entry += 'A' - 'a';
+					}
+					/*if (entry >= (BYTE)'а' && entry <= (BYTE)'я') {
+						entry += (BYTE)'А' - (BYTE)'а';
+					}
+					if (entry == (BYTE)'ё') {
+						entry += (BYTE)'Ё' - (BYTE)'ё';
+					}*/
 				}
-
-				if (str->capa >= 16) {
-					str->ptr[cursor] = entry;
-				}
-				else {
-					str->buf[cursor] = entry;
-				}
-				
+				str_i[cursor] = entry;
 			}
-
 			o(clear)(events);
 
 			return 1;
 		}
-
 		return 0;
 	}
 
+	SETUP_ORIG_FUNC(upper_case_string, 0x14B240);
+	void h(upper_case_string)(string_* str_)
+	{
+		char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
+
+		int32_t s;
+		for (s = 0;s < str_->len;s++) {
+			//CAPITALIZE
+			if (str[s] >= 'a' && str[s] <= 'z') {
+				str[s] -= 'a' - 'A';
+			}
+			if (str[s] >= (BYTE)'а' && str[s] <= (BYTE)'я') {
+				str[s] -= (BYTE)'a' - (BYTE)'А';
+			}
+			if (str[s] == (BYTE)'ё') {
+				str[s] -= (BYTE)'ё' - (BYTE)'Ё';
+			}
+
+			switch (str[s]) {
+				case (char)129:str[s] = (char)154;break;
+				case (char)164:str[s] = (char)165;break;
+				case (char)132:str[s] = (char)142;break;
+				case (char)134:str[s] = (char)143;break;
+				case (char)130:str[s] = (char)144;break;
+				case (char)148:str[s] = (char)153;break;
+				case (char)135:str[s] = (char)128;break;
+				case (char)145:str[s] = (char)146;break;
+			}
+		}
+	}
+
+	SETUP_ORIG_FUNC(simplify_string, 0x14AE60);
+	void h(simplify_string)(string_* str_)
+	{
+		char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
+		int32_t s;
+		for (s = 0;s < str_->len;s++)
+		{
+			//CAPITALIZE
+			if (str[s] >= 'A' && str[s] <= 'Z')
+			{
+				str[s] -= 'A';
+				str[s] += 'a';
+			}
+			if ((BYTE)str[s] >= (BYTE)'А' && (BYTE)str[s] <= (BYTE)'Я')
+			{
+				str[s] -= (BYTE)'А';
+				str[s] += (BYTE)'а';
+			}
+			if ((BYTE)str[s] == (BYTE)'Ё')
+			{
+				str[s] -= (BYTE)'Ё';
+				str[s] += (BYTE)'ё';
+			}
+
+			switch (str[s])
+			{
+				case (char)129:
+				case (char)150:
+				case (char)151:
+				case (char)154:
+				case (char)163:
+					str[s] = 'u';
+					break;
+				case (char)152:
+					str[s] = 'y';
+					break;
+				case (char)164:
+				case (char)165:
+					str[s] = 'n';
+					break;
+				case (char)131:
+				case (char)132:
+				case (char)133:
+				case (char)134:
+				case (char)142:
+				case (char)143:
+				case (char)145:
+				case (char)146:
+				case (char)160:
+					str[s] = 'a';
+					break;
+				case (char)130:
+				case (char)136:
+				case (char)137:
+				case (char)138:
+				case (char)144:
+					str[s] = 'e';
+					break;
+				case (char)139:
+				case (char)140:
+				case (char)141:
+				case (char)161:
+					str[s] = 'i';
+					break;
+				case (char)147:
+				case (char)148:
+				case (char)149:
+				case (char)153:
+				case (char)162:
+					str[s] = 'o';
+					break;
+				case (char)128:
+				case (char)135:
+					str[s] = 'c';
+					break;
+			}
+		}
+	}
+	
+	SETUP_ORIG_FUNC(lower_case_string, 0x14B050);
+	void h(lower_case_string)(string_* str_)
+	{
+		char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
+		int32_t s;
+		for (s = 0;s < str_->len;s++)
+		{
+			//CAPITALIZE
+			if (str[s] >= 'A' && str[s] <= 'Z')
+			{
+				str[s] -= 'A';
+				str[s] += 'a';
+			}
+			if ((BYTE)str[s] >= (BYTE)'А' && (BYTE)str[s] <= (BYTE)'Я')
+			{
+				str[s] -= (BYTE)'А';
+				str[s] += (BYTE)'а';
+			}
+			if ((BYTE)str[s] == (BYTE)'Ё')
+			{
+				str[s] -= (BYTE)'Ё';
+				str[s] += (BYTE)'ё';
+			}
+
+			switch (str[s])
+			{
+			case (char)154:str[s] = (char)129;break;
+			case (char)165:str[s] = (char)164;break;
+			case (char)142:str[s] = (char)132;break;
+			case (char)143:str[s] = (char)134;break;
+			case (char)144:str[s] = (char)130;break;
+			case (char)153:str[s] = (char)148;break;
+			case (char)128:str[s] = (char)135;break;
+			case (char)146:str[s] = (char)145;break;
+			}
+		}
+	}
+
+	SETUP_ORIG_FUNC(append, 0xC9F0);
+	__int64* __fastcall h(append)(void* Src, char* text, size_t Size) {
+		if (DictSearch(text)) {
+			Size = strlen(text);
+		}
+		return o(append)(Src, text, Size);
+	}
 
 #endif // _M_IX86
 
 void AttachFunctions()
 {
 	ATTACH(strncpyP);
+	printf("%p\n", o(strncpyP));
 	ATTACH(addcoloredst);
+	printf("%p\n", o(addcoloredst));
+
 
 #ifdef _M_X64
 	ATTACH(addcoloredst_inline);
 	ATTACH(standardstringentry);
-	printf("%p", o(standardstringentry));
+	printf("%p\n", o(standardstringentry));
+
+	ATTACH(upper_case_string);
+	printf("%p\n", o(upper_case_string));
+
+	printf("Hi %p\n", ((UINT64)GetModuleHandle(0) + 0x457D10));
+	printf("Hi %p\n", ((UINT64)GetModuleHandle(0) + 0x613E60));
+
+	ATTACH(simplify_string);
+	printf("%p\n", o(simplify_string));
+	ATTACH(lower_case_string);
+
+	ATTACH(append);
+	printf("%p\n", o(append));
+
 #endif // _M_X64
 }
 

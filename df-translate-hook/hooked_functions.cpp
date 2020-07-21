@@ -345,6 +345,127 @@
 		}
 	}
 
+	SETUP_ORIG_FUNC(capitalize_string_words, 0x14B430);
+	void h(capitalize_string_words)(string_* str_)
+	{
+		char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
+		char conf;
+		int32_t s;
+		for (s = 0;s < str_->len;s++)
+		{
+			conf = 0;
+			if (s > 0)
+			{
+				if (str[s - 1] == ' ' ||
+					str[s - 1] == '\"')conf = 1;
+				if (str[s - 1] == '\'')
+				{
+					//DISCOUNT SINGLE QUOTE IF IT ISN'T PRECEDED BY SPACE, COMMA OR NOTHING
+					if (s <= 0)conf = 1;
+					else if (s >= 2)
+					{
+						if (str[s - 2] == ' ' ||
+							str[s - 2] == ',')conf = 1;
+					}
+				}
+			}
+			if (s == 0 || conf)
+			{
+				//CAPITALIZE
+				if (str[s] >= 'a' && str[s] <= 'z')
+				{
+					str[s] -= 'a';
+					str[s] += 'A';
+				}
+
+				if ((BYTE)str[s] >= (BYTE)'à' && (BYTE)str[s] <= (BYTE)'ÿ')
+				{
+					str[s] -= (BYTE)'à';
+					str[s] += (BYTE)'À';
+				}
+				if ((BYTE)str[s] == (BYTE)'¸')
+				{
+					str[s] -= (BYTE)'¸';
+					str[s] += (BYTE)'¨';
+				}
+
+				switch (str[s])
+				{
+				case (char)129:str[s] = (char)154;break;
+				case (char)164:str[s] = (char)165;break;
+				case (char)132:str[s] = (char)142;break;
+				case (char)134:str[s] = (char)143;break;
+				case (char)130:str[s] = (char)144;break;
+				case (char)148:str[s] = (char)153;break;
+				case (char)135:str[s] = (char)128;break;
+				case (char)145:str[s] = (char)146;break;
+				}
+			}
+		}
+	}
+
+	SETUP_ORIG_FUNC(capitalize_string_first_word, 0x14B6B0);
+	void h(capitalize_string_first_word)(string_* str_)
+	{
+		char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
+		char conf;
+		int32_t s;
+		for (s = 0;s < str_->len;s++)
+		{
+			conf = 0;
+			if (s > 0)
+			{
+				if (str[s - 1] == ' ' ||
+					str[s - 1] == '\"')conf = 1;
+				if (str[s - 1] == '\'')
+				{
+					//DISCOUNT SINGLE QUOTE IF IT ISN'T PRECEDED BY SPACE, COMMA OR NOTHING
+					if (s <= 0)conf = 1;
+					else if (s >= 2)
+					{
+						if (str[s - 2] == ' ' ||
+							str[s - 2] == ',')conf = 1;
+					}
+				}
+			}
+			if (s == 0 || conf)
+			{
+				//CAPITALIZE
+				if (str[s] >= 'a' && str[s] <= 'z')
+				{
+					str[s] -= 'a';
+					str[s] += 'A';
+					return;
+				}
+				if ((BYTE)str[s] >= (BYTE)'à' && (BYTE)str[s] <= (BYTE)'ÿ')
+				{
+					str[s] -= (BYTE)'à';
+					str[s] += (BYTE)'À';
+					return;
+				}
+				if ((BYTE)str[s] == (BYTE)'¸')
+				{
+					str[s] -= (BYTE)'¸';
+					str[s] += (BYTE)'¨';
+					return;
+				}
+
+				switch (str[s])
+				{
+				case (char)129:str[s] = (char)154;return;
+				case (char)164:str[s] = (char)165;return;
+				case (char)132:str[s] = (char)142;return;
+				case (char)134:str[s] = (char)143;return;
+				case (char)130:str[s] = (char)144;return;
+				case (char)148:str[s] = (char)153;return;
+				case (char)135:str[s] = (char)128;return;
+				case (char)145:str[s] = (char)146;return;
+				}
+				if (str[s] != ' ' && str[s] != '\"')return;
+			}
+		}
+	}
+
 	SETUP_ORIG_FUNC(append, 0xC9F0);
 	__int64* __fastcall h(append)(void* Src, char* text, size_t Size) {
 		if (DictSearch(text)) {
@@ -366,17 +487,12 @@ void AttachFunctions()
 #ifdef _M_X64
 	ATTACH(addcoloredst_inline);
 	ATTACH(standardstringentry);
-	printf("%p\n", o(standardstringentry));
 
 	ATTACH(upper_case_string);
-	printf("%p\n", o(upper_case_string));
-
-	printf("Hi %p\n", ((UINT64)GetModuleHandle(0) + 0x457D10));
-	printf("Hi %p\n", ((UINT64)GetModuleHandle(0) + 0x613E60));
-
 	ATTACH(simplify_string);
-	printf("%p\n", o(simplify_string));
 	ATTACH(lower_case_string);
+	ATTACH(capitalize_string_words);
+	ATTACH(capitalize_string_first_word);
 
 	ATTACH(append);
 	printf("%p\n", o(append));

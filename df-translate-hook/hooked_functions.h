@@ -44,6 +44,8 @@ typedef void(__fastcall* clear)(char* this_);
 typedef void(__fastcall* upper_case_string)(string_* str_);
 typedef void(__fastcall* simplify_string)(string_* str_);
 typedef void(__fastcall* lower_case_string)(string_* str_);
+typedef void(__fastcall* capitalize_string_words)(string_* str_);
+typedef void(__fastcall* capitalize_string_first_word)(string_* str_);
 
 typedef __int64* (__fastcall* append)(void* Src, char* a2, size_t Size);
 #endif // _M_IX86

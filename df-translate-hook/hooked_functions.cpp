@@ -404,8 +404,22 @@
 		}
 	}
 
+	SETUP_ORIG_FUNC(append, 0xC9F0);
+	__int64* __fastcall h(append)(void* Src, char* text, size_t Size) {
+		if (DictSearch(text)) {
+			Size = strlen(text);
+		}
+		return o(append)(Src, text, Size);
+	}
+
+#endif // _M_IX86
+
+#if defined _M_IX86
+	SETUP_ORIG_FUNC(capitalize_string_first_word, 0x11DFE0);
+#elif defined _M_X64
 	SETUP_ORIG_FUNC(capitalize_string_first_word, 0x14B6B0);
-	void h(capitalize_string_first_word)(string_* str_)
+#endif
+	void __fastcall h(capitalize_string_first_word)(string_* str_)
 	{
 		char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
 		char conf;
@@ -466,23 +480,14 @@
 		}
 	}
 
-	SETUP_ORIG_FUNC(append, 0xC9F0);
-	__int64* __fastcall h(append)(void* Src, char* text, size_t Size) {
-		if (DictSearch(text)) {
-			Size = strlen(text);
-		}
-		return o(append)(Src, text, Size);
-	}
-
-#endif // _M_IX86
 
 void AttachFunctions()
 {
 	ATTACH(strncpyP);
-	printf("%p\n", o(strncpyP));
 	ATTACH(addcoloredst);
-	printf("%p\n", o(addcoloredst));
 
+	ATTACH(capitalize_string_first_word);
+	printf("%p\n", o(capitalize_string_first_word));
 
 #ifdef _M_X64
 	ATTACH(addcoloredst_inline);
@@ -495,8 +500,6 @@ void AttachFunctions()
 	ATTACH(capitalize_string_first_word);
 
 	ATTACH(append);
-	printf("%p\n", o(append));
-
 #endif // _M_X64
 }
 

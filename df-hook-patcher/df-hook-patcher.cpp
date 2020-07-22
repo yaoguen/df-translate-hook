@@ -157,7 +157,7 @@ int main() {
 
 	// Patching search in manager
 #ifdef _M_IX86
-	PatchingBytesInEXE(exepath, 0x00c35d50, bytes, sizeof(bytes));
+	//PatchingBytesInEXE(exepath, 0x00c35d50, bytes, sizeof(bytes));
 #elif _M_X64
 	//// cmp .., 'a'
 	//// jl adr  ->> jbe adr

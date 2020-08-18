@@ -676,6 +676,12 @@ void AttachFunctions()
 
 void ReworkFunctions()
 {
+#ifdef _M_IX86
+	Sleep(10);
+	char b1[] = { 0xC3,	0x90, 0x90 };	// ret
+	ChangeBytesAtAddr((char*)h(standardstringentry)+0x2BF, b1, 3);
+	ChangeBytesAtAddr((char*)h(standardstringentry)+0x2D4, b1, 3);
+#endif
 	//Fix inline addcoloredst 
 #ifdef _M_X64
 	Sleep(10);

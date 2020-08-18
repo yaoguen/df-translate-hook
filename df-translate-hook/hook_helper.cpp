@@ -23,7 +23,7 @@ void CreateDebugConsole()
 {
 	FILE* fp = 0;
 	AllocConsole();
-	SetConsoleTitle(L"DF debugging console");
+	SetConsoleTitle("DF debugging console");
 
 	system("mode con cols=40 lines=20");
 	freopen_s(&fp, "CONOUT$", "w", stdout);

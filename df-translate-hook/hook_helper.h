@@ -12,6 +12,10 @@ using std::map;
 #define SETUP_ORIG_FUNC(nameFunc, shift) \
 	nameFunc nameFunc##_orig = (nameFunc)((UINT64)GetModuleHandle(0) + shift);
 
+#define SETUP_ORIG_FUNC_FNAME(nameFunc, nameModule) \
+	nameFunc nameFunc##_orig = (nameFunc)(GetProcAddress(GetModuleHandle(#nameModule), #nameFunc));
+
+
 #define GET_ADDR(shift) \
 	(PVOID)((UINT64)GetModuleHandle(0) + shift)
 

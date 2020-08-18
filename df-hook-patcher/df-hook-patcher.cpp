@@ -154,6 +154,34 @@ int main() {
 //	PatchingBytesInEXE(exepath, 0x003601f7, new BYTE[1]{ 0xEB }, 1);
 //#endif // _M_IX86
 
+
+	// Patching search in manager
+#ifdef _M_IX86
+	//PatchingBytesInEXE(exepath, 0x00c35d50, bytes, sizeof(bytes));
+
+	// cmp .., 'a'
+	// jl adr  ->> jbe adr
+	PatchingBytesInEXE(exepath, 0x543B6D, new BYTE[1]{ 0x76 }, 1);
+	// cmp .., 'z' ->> cmp .., 'я'
+	// jg adr  ->> ja adr
+	PatchingBytesInEXE(exepath, 0x543B7B, new BYTE[2]{ 0xFF, 0x77 }, 2);
+#elif _M_X64
+	//// cmp .., 'a'
+	//// jl adr  ->> jbe adr
+	//PatchingBytesInEXE(exepath, 0x00271df0, new BYTE[]{0x76}, 1);
+	//// cmp .., 'z' ->> cmp .., 'я'
+	//// jg adr  ->> ja adr
+	//PatchingBytesInEXE(exepath, 0x00271e01, new BYTE[]{0xFF, 0x77}, 2);
+
+	// cmp .., 'a'
+	// jl adr  ->> jbe adr
+	PatchingBytesInEXE(exepath, 0x0630bb0, new BYTE[1]{0x76}, 1);
+	// cmp .., 'z' ->> cmp .., 'я'
+	// jg adr  ->> ja adr
+	PatchingBytesInEXE(exepath, 0x00630bc1, new BYTE[2]{0xFF, 0x77}, 2);
+#endif // _M_IX86
+
+
 	// Patching unicode table
 	BYTE bytes[] = { 0x5e, 0x04, 0x00, 0x00, 0xfa, 0x00, 0x00, 0x00, 0xf1, 0x00, 0x00, 0x00, 0x90, 0x04,
 		 0x00, 0x00, 0xaa, 0x00, 0x00, 0x00, 0xba, 0x00, 0x00, 0x00, 0x01, 0x04, 0x00, 0x00, 0x10, 0x23,

@@ -37,6 +37,7 @@ struct string_ {			// Структура данных экземпляра string
 typedef char* (__fastcall* strncpyP)(void* Dest, DWORD EDX, char* Source, int Count);
 typedef void(__fastcall* addcoloredst)(char* gps, DWORD EDX, char* str, const char* colorstr);
 typedef void(__thiscall* addst)(char* gps, char* str, unsigned __int8 just, int space);
+typedef int* (__fastcall* append)(void* Src, DWORD EDX, char* text, size_t Size);
 
 typedef int(__thiscall* count)(set_* this_, int* elem);
 typedef void(__thiscall* clear_)(set_* begin, set_* end);

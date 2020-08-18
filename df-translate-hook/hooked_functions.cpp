@@ -179,6 +179,14 @@
 		}
 		return 0;
 	}
+
+	SETUP_ORIG_FUNC(append, 0xA340);
+	int* __fastcall h(append)(void* Src, DWORD EDX, char* text, size_t Size) {
+		if (DictSearch(text)) {
+			Size = strlen(text);
+		}
+		return o(append)(Src, EDX, text, Size);
+	}
 #elif defined _M_X64
 	SETUP_ORIG_FUNC(strncpyP, 0xC780);
 	char* __cdecl h(strncpyP)(char* Dest, char* Source, size_t Count)
@@ -658,15 +666,16 @@ void AttachFunctions()
 {
 	ATTACH(strncpyP);
 	ATTACH(addcoloredst);
-	printf("%p\n", o(addcoloredst));
+	ATTACH(append);
+
 	ATTACH(standardstringentry);
 	printf("%p\n", o(standardstringentry));
+
 	ATTACH(simplify_string);
 	ATTACH(lower_case_string);
 	ATTACH(upper_case_string);
 	ATTACH(capitalize_string_words);
 	ATTACH(capitalize_string_first_word);
-	//printf("%p\n", o(capitalize_string_first_word));
 
 #ifdef _M_X64
 	ATTACH(addcoloredst_inline);

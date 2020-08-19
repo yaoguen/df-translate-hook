@@ -353,13 +353,6 @@
 		}
 		return o(append)(Src, text, Size);
 	}
-
-	SETUP_ORIG_FUNC_FNAME(TTF_RenderUNICODE_Blended, SDL_ttf.dll);
-	char* h(TTF_RenderUNICODE_Blended)(char* font, uint16_t* text, SDL_Color fg) {
-		uint16_t* x = ChangeText(text);
-		return o(TTF_RenderUNICODE_Blended)(font, x, fg);
-	}
-
 #endif // _M_IX86
 
 void Capitalize(char& s)

@@ -7,11 +7,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "df-translate-hook-x32", "df
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "df-hook-launcher", "df-hook-launcher\df-hook-launcher.vcxproj", "{6EF20DAE-F1C6-4E17-80CF-95F1E0F31050}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "df-hook-patcher", "df-hook-patcher\df-hook-patcher.vcxproj", "{151E6511-A854-4B10-AEE6-889B97E7023D}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "df-translate-hook-x64", "df-translate-hook-x64\df-translate-hook-x64.vcxproj", "{536E6597-6ECA-4130-B9B1-6DDEB8F8F743}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "df-hook-patcher-x64", "df-hook-patcher-x64\df-hook-patcher-x64.vcxproj", "{04513C78-49FD-48A2-83D5-001AA27C2CE4}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "df-hook-patcher-x32", "df-hook-patcher-x32\df-hook-patcher-x32.vcxproj", "{151E6511-A854-4B10-AEE6-889B97E7023D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +35,14 @@ Global
 		{6EF20DAE-F1C6-4E17-80CF-95F1E0F31050}.Release|x64.Build.0 = Release|x64
 		{6EF20DAE-F1C6-4E17-80CF-95F1E0F31050}.Release|x86.ActiveCfg = Release|Win32
 		{6EF20DAE-F1C6-4E17-80CF-95F1E0F31050}.Release|x86.Build.0 = Release|Win32
+		{151E6511-A854-4B10-AEE6-889B97E7023D}.Debug|x64.ActiveCfg = Debug|Win32
+		{151E6511-A854-4B10-AEE6-889B97E7023D}.Debug|x64.Build.0 = Debug|Win32
+		{151E6511-A854-4B10-AEE6-889B97E7023D}.Debug|x86.ActiveCfg = Debug|Win32
+		{151E6511-A854-4B10-AEE6-889B97E7023D}.Debug|x86.Build.0 = Debug|Win32
+		{151E6511-A854-4B10-AEE6-889B97E7023D}.Release|x64.ActiveCfg = Release|x64
+		{151E6511-A854-4B10-AEE6-889B97E7023D}.Release|x64.Build.0 = Release|x64
+		{151E6511-A854-4B10-AEE6-889B97E7023D}.Release|x86.ActiveCfg = Release|Win32
+		{151E6511-A854-4B10-AEE6-889B97E7023D}.Release|x86.Build.0 = Release|Win32
 		{536E6597-6ECA-4130-B9B1-6DDEB8F8F743}.Debug|x64.ActiveCfg = Debug|x64
 		{536E6597-6ECA-4130-B9B1-6DDEB8F8F743}.Debug|x64.Build.0 = Debug|x64
 		{536E6597-6ECA-4130-B9B1-6DDEB8F8F743}.Debug|x86.ActiveCfg = Debug|Win32
@@ -45,22 +51,6 @@ Global
 		{536E6597-6ECA-4130-B9B1-6DDEB8F8F743}.Release|x64.Build.0 = Release|x64
 		{536E6597-6ECA-4130-B9B1-6DDEB8F8F743}.Release|x86.ActiveCfg = Release|x64
 		{536E6597-6ECA-4130-B9B1-6DDEB8F8F743}.Release|x86.Build.0 = Release|x64
-		{04513C78-49FD-48A2-83D5-001AA27C2CE4}.Debug|x64.ActiveCfg = Debug|x64
-		{04513C78-49FD-48A2-83D5-001AA27C2CE4}.Debug|x64.Build.0 = Debug|x64
-		{04513C78-49FD-48A2-83D5-001AA27C2CE4}.Debug|x86.ActiveCfg = Debug|Win32
-		{04513C78-49FD-48A2-83D5-001AA27C2CE4}.Debug|x86.Build.0 = Debug|Win32
-		{04513C78-49FD-48A2-83D5-001AA27C2CE4}.Release|x64.ActiveCfg = Release|x64
-		{04513C78-49FD-48A2-83D5-001AA27C2CE4}.Release|x64.Build.0 = Release|x64
-		{04513C78-49FD-48A2-83D5-001AA27C2CE4}.Release|x86.ActiveCfg = Release|Win32
-		{04513C78-49FD-48A2-83D5-001AA27C2CE4}.Release|x86.Build.0 = Release|Win32
-		{151E6511-A854-4B10-AEE6-889B97E7023D}.Debug|x64.ActiveCfg = Debug|x64
-		{151E6511-A854-4B10-AEE6-889B97E7023D}.Debug|x64.Build.0 = Debug|x64
-		{151E6511-A854-4B10-AEE6-889B97E7023D}.Debug|x86.ActiveCfg = Debug|Win32
-		{151E6511-A854-4B10-AEE6-889B97E7023D}.Debug|x86.Build.0 = Debug|Win32
-		{151E6511-A854-4B10-AEE6-889B97E7023D}.Release|x64.ActiveCfg = Release|x64
-		{151E6511-A854-4B10-AEE6-889B97E7023D}.Release|x64.Build.0 = Release|x64
-		{151E6511-A854-4B10-AEE6-889B97E7023D}.Release|x86.ActiveCfg = Release|Win32
-		{151E6511-A854-4B10-AEE6-889B97E7023D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

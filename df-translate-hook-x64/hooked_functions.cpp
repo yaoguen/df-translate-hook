@@ -63,7 +63,7 @@ char h(standardstringentry)(string_* str, int maxlen, unsigned int flag, void * 
 		count_arg = INTERFACEKEY_STRING_A184;
 		if (o(count)(events, &count_arg)) entry = 184;//ё
 		cont = (BYTE)'А'; // cyrillic A
-		for (item = INTERFACEKEY_STRING_A192; item <= INTERFACEKEY_STRING_A255+5; item++)//все русские буквы
+		for (item = INTERFACEKEY_STRING_A192; item <= INTERFACEKEY_STRING_A255 + 5; item++)//все русские буквы
 		{
 			count_arg = item;
 			if (o(count)(events, &count_arg))
@@ -104,11 +104,15 @@ char h(standardstringentry)(string_* str, int maxlen, unsigned int flag, void * 
 	if (o(count)(events, &count_arg)) entry = '\x0';
 	if (flag & STRINGENTRY_NUMBERS)
 	{
-		cont = 0;
+		cont = (BYTE)'0';
 		for (item = INTERFACEKEY_STRING_A048; item <= INTERFACEKEY_STRING_A057; item++) // Цифры
 		{
 			count_arg = item;
-			if (o(count)(events, &count_arg))entry = cont;
+			if (o(count)(events, &count_arg))
+			{
+				entry = cont;
+				break;
+			}
 			cont++;
 		}
 	}

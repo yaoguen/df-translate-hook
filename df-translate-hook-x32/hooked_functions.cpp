@@ -124,11 +124,15 @@ char __fastcall h(standardstringentry)(string_* str, int maxlen, unsigned int fl
 	if (o(count)(events, &count_arg)) entry = '\x0';
 	if (flag & STRINGENTRY_NUMBERS)
 	{
-		cont = 0;
+		cont = (BYTE)'0';
 		for (item = INTERFACEKEY_STRING_A048; item <= INTERFACEKEY_STRING_A057; item++) // ײטפנû
 		{
 			count_arg = item;
-			if (o(count)(events, &count_arg))entry = cont;
+			if (o(count)(events, &count_arg))
+			{
+				entry = cont;
+				break;
+			}
 			cont++;
 		}
 	}

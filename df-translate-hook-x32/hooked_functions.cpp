@@ -479,6 +479,7 @@ void AttachFunctions()
 	ATTACH(strncpyP);
 	ATTACH(addcoloredst);
 	ATTACH(append);
+	
 
 	ATTACH(standardstringentry);
 	printf("%p\n", o(standardstringentry));
@@ -488,36 +489,12 @@ void AttachFunctions()
 	ATTACH(upper_case_string);
 	ATTACH(capitalize_string_words);
 	ATTACH(capitalize_string_first_word);
-
-#ifdef _M_X64
-	ATTACH(addcoloredst_inline);
-	ATTACH(append);
-#endif // _M_X64
 }
 
 void ReworkFunctions()
 {
-#ifdef _M_IX86
 	Sleep(10);
 	char b1[] = { 0xC3,	0x90, 0x90 };	// ret
 	ChangeBytesAtAddr((char*)h(standardstringentry)+0x2BF, b1, 3);
 	ChangeBytesAtAddr((char*)h(standardstringentry)+0x2D4, b1, 3);
-#endif
-	//Fix inline addcoloredst 
-#ifdef _M_X64
-	Sleep(10);
-	PVOID addr;
-	addr = GET_ADDR(0x976F91);
-	char b1[] = { 0x51,					// push rcx
-		0x48, 0x8B, 0xCE,				// mov rcx, rsi
-		0x48, 0x8D, 0x55, 0x90, 0xE8 	// lea rdx, ss:[rbp-0x70]
-	};
-	ChangeBytesAtAddr(addr, b1, 9);
-
-	addr = GET_ADDR(0x976F9E);
-	char b2[] = { 0x59,					// pop rcx
-		0xEB, 0x6F						// jmp $+0x6F
-	};
-	ChangeBytesAtAddr(addr, b2, 3);
-#endif // _M_X64
 }

@@ -7,7 +7,7 @@
 using std::string;
 using std::map;
 
-#define DEBUG 0    //Turn on debug printing 1 - enable; 0 - disable
+#define DEBUG 1    //Turn on debug printing 1 - enable; 0 - disable
 
 #define SETUP_ORIG_FUNC(nameFunc, shift) \
 	nameFunc nameFunc##_orig = (nameFunc)((UINT64)GetModuleHandle(0) + shift);

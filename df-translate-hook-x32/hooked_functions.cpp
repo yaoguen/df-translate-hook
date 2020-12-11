@@ -479,10 +479,8 @@ void AttachFunctions()
 	ATTACH(strncpyP);
 	ATTACH(addcoloredst);
 	ATTACH(append);
-	
 
 	ATTACH(standardstringentry);
-	printf("%p\n", o(standardstringentry));
 
 	ATTACH(simplify_string);
 	ATTACH(lower_case_string);
@@ -493,8 +491,9 @@ void AttachFunctions()
 
 void ReworkFunctions()
 {
+	// Fix return for standardstringentry function
 	Sleep(10);
-	char b1[] = { 0xC3,	0x90, 0x90 };	// ret
-	ChangeBytesAtAddr((char*)h(standardstringentry)+0x2BF, b1, 3);
-	ChangeBytesAtAddr((char*)h(standardstringentry)+0x2D4, b1, 3);
+	char buf[] = { 0xC3,	0x90, 0x90 };	// ret
+	// WARNING!!! If you change the standardstringentry function, you must correct the offset addresses.
+	ChangeBytesAtAddr((char*)h(standardstringentry)+0x36F, buf, 3);
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "detours.h"
 #include "hook_helper.h"
+#include "changetext.h"
 
 // Structs
 struct string_ {			// Структура данных экземпляра string
@@ -13,6 +14,12 @@ struct string_ {			// Структура данных экземпляра string
 	__int64 pad;
 };
 
+struct SDL_Color {
+	uint8_t r;
+	uint8_t g;
+	uint8_t b;
+	uint8_t unused;
+};
 
 typedef char* (__cdecl* strncpyP)(char* Dest, char* Source, size_t Count);
 
@@ -32,6 +39,9 @@ typedef void(__fastcall* simplify_string)(string_* str_);
 typedef void(__fastcall* lower_case_string)(string_* str_);
 typedef void(__fastcall* capitalize_string_words)(string_* str_);
 typedef void(__fastcall* capitalize_string_first_word)(string_* str_);
+
+typedef char* (*TTF_RenderUNICODE_Blended)(char* font, const uint16_t* text, SDL_Color fg);
+typedef int(*TTF_SizeUNICODE)(char* font, uint16_t* text, int* w, int* h);
 
 void AttachFunctions();
 void ReworkFunctions();

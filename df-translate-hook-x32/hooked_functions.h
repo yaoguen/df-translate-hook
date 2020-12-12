@@ -1,6 +1,7 @@
 #pragma once
 #include "detours.h"
 #include "hook_helper.h"
+#include "changetext.h"
 
 // Structs
 struct string_ {					// Структура данных экземпляра string
@@ -21,6 +22,19 @@ struct set_ {				// Структура данных экземпляра std::set
 	__int8 endP;			// Определяет конец set
 };
 
+struct graphicst_ {
+	long screenx, screeny;
+	char screenf, screenb;
+	char screenbright;
+};
+
+struct SDL_Color {
+	uint8_t r;
+	uint8_t g;
+	uint8_t b;
+	uint8_t unused;
+};
+
 
 typedef char* (__fastcall* strncpyP)(void* Dest, DWORD EDX, char* Source, int Count);
 typedef void(__fastcall* addcoloredst)(char* gps, DWORD EDX, char* str, const char* colorstr);
@@ -37,6 +51,9 @@ typedef void(__fastcall* simplify_string)(string_* str_);
 typedef void(__fastcall* lower_case_string)(string_* str_);
 typedef void(__fastcall* capitalize_string_words)(string_* str_);
 typedef void(__fastcall* capitalize_string_first_word)(string_* str_);
+
+typedef char* (*TTF_RenderUNICODE_Blended)(char* font, const uint16_t* text, SDL_Color fg);
+typedef int(*TTF_SizeUNICODE)(char* font, uint16_t* text, int* w, int* h);
 
 void AttachFunctions();
 void ReworkFunctions();

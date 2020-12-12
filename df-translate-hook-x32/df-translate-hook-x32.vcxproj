@@ -140,6 +140,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)$(Configuration)\$(Platform)</OutDir>
+    <IncludePath>Z:\Data\Python39-32\include;$(IncludePath)</IncludePath>
+    <LibraryPath>Z:\Data\Python39-32\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release64|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -295,6 +297,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="changetext.h" />
     <ClInclude Include="csv_reader.h" />
     <ClInclude Include="detours.h" />
     <ClInclude Include="framework.h" />
@@ -304,6 +307,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="changetext.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="hooked_functions.cpp" />
     <ClCompile Include="hook_helper.cpp" />

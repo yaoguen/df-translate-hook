@@ -474,6 +474,28 @@ void __fastcall h(capitalize_string_first_word)(string_* str_)
 }
 
 
+SETUP_ORIG_FUNC_FNAME(TTF_RenderUNICODE_Blended, SDL_ttf.dll);
+char* h(TTF_RenderUNICODE_Blended)(char* font, uint16_t* text, SDL_Color fg) {
+	uint16_t* x = ChangeText(text);
+	if (x) {
+		return o(TTF_RenderUNICODE_Blended)(font, x, fg);
+	}
+	else {
+		return o(TTF_RenderUNICODE_Blended)(font, text, fg);
+	}
+}
+
+SETUP_ORIG_FUNC_FNAME(TTF_SizeUNICODE, SDL_ttf.dll);
+int h(TTF_SizeUNICODE)(char* font, uint16_t* text, int* width, int* height) {
+	uint16_t* x = ChangeText(text);
+	if (x) {
+		return o(TTF_SizeUNICODE)(font, x, width, height);
+	}
+	else {
+		return o(TTF_SizeUNICODE)(font, text, width, height);
+	}
+}
+
 void AttachFunctions()
 {
 	ATTACH(strncpyP);
@@ -487,6 +509,11 @@ void AttachFunctions()
 	ATTACH(upper_case_string);
 	ATTACH(capitalize_string_words);
 	ATTACH(capitalize_string_first_word);
+
+	ATTACH(TTF_RenderUNICODE_Blended);
+	printf("%p\n", o(TTF_RenderUNICODE_Blended));
+	//ATTACH(TTF_SizeUNICODE);
+	//printf("%p\n", o(TTF_SizeUNICODE));
 }
 
 void ReworkFunctions()

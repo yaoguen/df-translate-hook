@@ -21,11 +21,17 @@ struct SDL_Color {
 	uint8_t unused;
 };
 
+struct graphicst_ {
+	long screenx, screeny;
+	char screenf, screenb;
+	char screenbright;
+};
+
 typedef char* (__cdecl* strncpyP)(char* Dest, char* Source, size_t Count);
 
 typedef void(__fastcall* addcoloredst_inline)(char* str, char* colorstr);
-typedef void(__fastcall* addcoloredst)(char* gps, char* str, char* colorstr);
-typedef void(__fastcall* addst)(char* gps, char* str, unsigned __int8 just, int space);
+typedef void(__fastcall* addcoloredst)(graphicst_* gps, char* str, char* colorstr);
+typedef void(__fastcall* addst)(graphicst_* gps, char* str, unsigned __int8 just, int space);
 
 typedef char(__fastcall* standardstringentry)(string_* str_, int maxlen, unsigned int flag, char* events);
 typedef __int64(__fastcall* count)(void* this_, __int64* elem);

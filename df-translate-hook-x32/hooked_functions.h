@@ -37,8 +37,8 @@ struct SDL_Color {
 
 
 typedef char* (__fastcall* strncpyP)(void* Dest, DWORD EDX, char* Source, int Count);
-typedef void(__fastcall* addcoloredst)(char* gps, DWORD EDX, char* str, const char* colorstr);
-typedef void(__thiscall* addst)(char* gps, char* str, unsigned __int8 just, int space);
+typedef void(__fastcall* addcoloredst)(graphicst_* gps, DWORD EDX, char* str, const char* colorstr);
+typedef void(__thiscall* addst)(graphicst_* gps, char* str, unsigned __int8 just, int space);
 typedef int* (__fastcall* append)(void* Src, DWORD EDX, char* text, size_t Size);
 
 typedef int(__thiscall* count)(set_* this_, int* elem);

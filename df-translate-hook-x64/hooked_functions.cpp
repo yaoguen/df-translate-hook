@@ -15,9 +15,9 @@ char* __cdecl h(strncpyP)(char* Dest, char* Source, size_t Count)
 
 SETUP_ORIG_FUNC(addst, 0x6EEB50);
 SETUP_ORIG_FUNC(addcoloredst, 0x6EEA90);  // Искать по строке "REC"
-void __fastcall h(addcoloredst)(char* gps, char* str, char* colorstr)
+void __fastcall h(addcoloredst)(graphicst_* gps, char* str, char* colorstr)
 {
-	string_ string;
+	string_ string{};
 	unsigned int slen = strlen(str);
 	string.len = slen;
 
@@ -30,9 +30,9 @@ void __fastcall h(addcoloredst)(char* gps, char* str, char* colorstr)
 		memcpy(string.buf, str, 16);
 	}
 
-	gps[8] = (colorstr[0] & 7);
-	gps[9] = ((colorstr[0] & 56)) >> 3;
-	gps[10] = ((colorstr[0] & 64)) >> 6;
+	gps->screenf = (colorstr[0] & 7);
+	gps->screenb = ((colorstr[0] & 56)) >> 3;
+	gps->screenbright = ((colorstr[0] & 64)) >> 6;
 
 	o(addst)(gps, (char*)&string, 0, 0);
 }
@@ -40,7 +40,7 @@ void __fastcall h(addcoloredst)(char* gps, char* str, char* colorstr)
 SETUP_ORIG_FUNC(addcoloredst_inline, 0x976F99);		// Искать по строке "Text generation failed: "
 void __fastcall h(addcoloredst_inline)(char* str, char* colorstr)
 {
-	char* gps = (char*)GET_ADDR(0x126F220);
+	graphicst_* gps = (graphicst_*)GET_ADDR(0x126F220);
 	h(addcoloredst)(gps, str, colorstr);
 }
 

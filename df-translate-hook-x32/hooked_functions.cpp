@@ -16,9 +16,9 @@ char* __fastcall h(strncpyP)(void* Dest, DWORD EDX, char* Source, int Count)
 
 SETUP_ORIG_FUNC(addcoloredst, 0x5E5620);
 SETUP_ORIG_FUNC(addst, 0x5e56a0);
-void __fastcall h(addcoloredst)(char* gps, DWORD EDX, char* str, const char* colorstr)
+void __fastcall h(addcoloredst)(graphicst_* gps, DWORD EDX, char* str, const char* colorstr)
 {
-	string_ string;
+	string_ string{};
 	unsigned int slen = strlen(str);
 	string.len = slen;
 
@@ -31,9 +31,9 @@ void __fastcall h(addcoloredst)(char* gps, DWORD EDX, char* str, const char* col
 		memcpy(string.buf, str, 16);
 	}
 
-	gps[8] = (colorstr[0] & 7);
-	gps[9] = ((colorstr[0] & 56)) >> 3;
-	gps[10] = ((colorstr[0] & 64)) >> 6;
+	gps->screenf = (colorstr[0] & 7);
+	gps->screenb = ((colorstr[0] & 56)) >> 3;
+	gps->screenbright = ((colorstr[0] & 64)) >> 6;
 
 	o(addst)(gps, (char*)&string, 0, 0);
 }

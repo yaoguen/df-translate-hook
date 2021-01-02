@@ -29,5 +29,5 @@ void FillDictionary();
 BOOL DictSearch(char*& text);
 void CreateDebugConsole();
 
-inline static void ChangeProtection(void* ptr, size_t size, DWORD& protection);
+static void ChangeProtection(void* ptr, size_t size, DWORD& protection);
 void ChangeBytesAtAddr(PVOID pFunc, char bytes[], size_t size = 0);

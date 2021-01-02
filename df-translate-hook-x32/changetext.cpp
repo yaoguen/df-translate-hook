@@ -5,9 +5,9 @@
 
 #define ERROR_MESSAGE(message) MessageBox(0,message,"ChangeText",MB_ICONERROR)
 
-PyObject * pModule = NULL,
-         * pfuncChangeText = NULL,
-         * pArgs = NULL;
+PyObject * pModule = nullptr,
+         * pfuncChangeText = nullptr,
+         * pArgs = nullptr;
 
 static int initialized = 0;
 
@@ -19,7 +19,7 @@ EXPORT int Init() {
         pfuncChangeText = PyObject_GetAttrString(pModule, "ChangeText");
         if(!(pfuncChangeText && PyCallable_Check(pfuncChangeText))) {
             Py_XDECREF(pfuncChangeText);
-            pfuncChangeText = NULL;
+            pfuncChangeText = nullptr;
             ERROR_MESSAGE("Error: Probably changetext.py module doesn't contain ChangeText function.\n");
         }
         else pArgs = PyTuple_New(1);
@@ -30,7 +30,7 @@ EXPORT int Init() {
     }
 
     initialized = 1; // At least tried to initialize
-    return pfuncChangeText!=NULL;
+    return pfuncChangeText!= nullptr;
 }
 
 #define BUFFER_SIZE 0x100
@@ -50,7 +50,7 @@ size_t my_strlen16(uint16_t * s) {
 
 /* Функция, получающая исходный текст и передающая его на обработку скрипту*/
 EXPORT uint16_t * ChangeText(uint16_t * src) {
-    static PyObject * pValue = NULL;
+    static PyObject * pValue = nullptr;
     PyObject * bytesUtf16;
 
     if(!initialized) Init();
@@ -67,13 +67,11 @@ EXPORT uint16_t * ChangeText(uint16_t * src) {
 
         if(pValue)
             return (uint16_t*)PyBytes_AS_STRING(pValue);
-        else {
-            PyErr_PrintEx(1);
-            Py_XDECREF(pValue);
-            return 0;
-        }
+    	
+        PyErr_PrintEx(1);
+        Py_XDECREF(pValue);
+        return nullptr;
     }
-    else {
-        return 0;
-    }
+	
+    return nullptr;
 }

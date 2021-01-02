@@ -19,7 +19,7 @@ SETUP_ORIG_FUNC(addst, 0x5e56a0);
 void __fastcall h(addcoloredst)(graphicst_* gps, DWORD EDX, char* str, const char* colorstr)
 {
 	string_ string{};
-	unsigned int slen = strlen(str);
+	const size_t slen = strlen(str);
 	string.len = slen;
 
 	if (slen >= 16) {
@@ -45,7 +45,7 @@ void clear(set_* events) {
 	events->begin->ptr = events->begin;
 	events->begin->begin = events->begin;
 	events->begin->end = events->begin;
-	events->ptr = 0;
+	events->ptr = nullptr;
 }
 
 
@@ -415,11 +415,9 @@ SETUP_ORIG_FUNC(capitalize_string_first_word, 0x11DFE0);
 void __fastcall h(capitalize_string_first_word)(string_* str_)
 {
 	char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
-	char conf;
-	int32_t s;
-	for (s = 0;s < str_->len;s++)
+	for (int32_t s = 0;s < str_->len;s++)
 	{
-		conf = 0;
+		char conf = 0;
 		if (s > 0)
 		{
 			if (str[s - 1] == ' ' ||
@@ -477,23 +475,13 @@ void __fastcall h(capitalize_string_first_word)(string_* str_)
 SETUP_ORIG_FUNC_FNAME(TTF_RenderUNICODE_Blended, SDL_ttf.dll);
 char* h(TTF_RenderUNICODE_Blended)(char* font, uint16_t* text, SDL_Color fg) {
 	uint16_t* x = ChangeText(text);
-	if (x) {
-		return o(TTF_RenderUNICODE_Blended)(font, x, fg);
-	}
-	else {
-		return o(TTF_RenderUNICODE_Blended)(font, text, fg);
-	}
+	return o(TTF_RenderUNICODE_Blended)(font, x ? x : text, fg);
 }
 
 SETUP_ORIG_FUNC_FNAME(TTF_SizeUNICODE, SDL_ttf.dll);
 int h(TTF_SizeUNICODE)(char* font, uint16_t* text, int* width, int* height) {
 	uint16_t* x = ChangeText(text);
-	if (x) {
-		return o(TTF_SizeUNICODE)(font, x, width, height);
-	}
-	else {
-		return o(TTF_SizeUNICODE)(font, text, width, height);
-	}
+	return o(TTF_SizeUNICODE)(font, x ? x : text, width, height);
 }
 
 void AttachFunctions()

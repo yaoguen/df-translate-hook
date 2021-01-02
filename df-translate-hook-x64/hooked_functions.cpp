@@ -240,8 +240,7 @@ SETUP_ORIG_FUNC(simplify_string, 0x14AE60);
 void __fastcall h(simplify_string)(string_* str_)
 {
 	char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
-	int32_t s;
-	for (s = 0;s < str_->len;s++)
+	for (int32_t s = 0;s < str_->len;s++)
 	{
 		//CAPITALIZE
 		LowerCast(str[s]);
@@ -331,11 +330,9 @@ SETUP_ORIG_FUNC(capitalize_string_words, 0x14B430);
 void __fastcall h(capitalize_string_words)(string_* str_)
 {
 	char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
-	char conf;
-	int32_t s;
-	for (s = 0;s < str_->len;s++)
+	for (int32_t s = 0;s < str_->len;s++)
 	{
-		conf = 0;
+		char conf = 0;
 		if (s > 0)
 		{
 			if (str[s - 1] == ' ' ||
@@ -376,11 +373,9 @@ SETUP_ORIG_FUNC(capitalize_string_first_word, 0x14B6B0);
 void __fastcall h(capitalize_string_first_word)(string_* str_)
 {
 	char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
-	char conf;
-	int32_t s;
-	for (s = 0;s < str_->len;s++)
+	for (int32_t s = 0;s < str_->len;s++)
 	{
-		conf = 0;
+		char conf = 0;
 		if (s > 0)
 		{
 			if (str[s - 1] == ' ' ||
@@ -441,20 +436,13 @@ char* h(TTF_RenderUNICODE_Blended)(char* font, uint16_t* text, SDL_Color fg) {
 	if (x) {
 		return o(TTF_RenderUNICODE_Blended)(font, x, fg);
 	}
-	else {
-		return o(TTF_RenderUNICODE_Blended)(font, text, fg);
-	}
+	return o(TTF_RenderUNICODE_Blended)(font, text, fg);
 }
 
 SETUP_ORIG_FUNC_FNAME(TTF_SizeUNICODE, SDL_ttf.dll);
 int h(TTF_SizeUNICODE)(char* font, uint16_t* text, int* width, int* height) {
 	uint16_t* x = ChangeText(text);
-	if (x) {
-		return o(TTF_SizeUNICODE)(font, x, width, height);
-	}
-	else {
-		return o(TTF_SizeUNICODE)(font, text, width, height);
-	}
+	return o(TTF_SizeUNICODE)(font, x ? x : text, width, height);
 }
 
 

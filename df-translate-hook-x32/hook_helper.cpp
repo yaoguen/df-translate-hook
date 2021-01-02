@@ -36,7 +36,7 @@ inline void ChangeProtection(void* ptr, size_t size, DWORD& protection)
 	VirtualProtect(ptr, size, protection, &protection);
 }
 
-void ChangeBytesAtAddr(PVOID addr, const char bytes[], size_t size)
+void ChangeBytesAtAddr(PVOID addr, char bytes[], size_t size)
 {
 	if (size == 0) {
 		size = sizeof(bytes)/sizeof(char);
@@ -47,7 +47,6 @@ void ChangeBytesAtAddr(PVOID addr, const char bytes[], size_t size)
 		MessageBoxA(nullptr, "Адрес не действительный!", "Критическая ошибка!", MB_OK);
 		ExitProcess(1);
 	}
-	
 	DWORD protection = PAGE_EXECUTE_READWRITE;
 	ChangeProtection(addr, size, protection);
 	memcpy(addr, bytes, size);

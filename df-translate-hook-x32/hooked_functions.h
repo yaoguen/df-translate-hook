@@ -36,10 +36,10 @@ struct SDL_Color {
 };
 
 
-typedef char* (__fastcall* strncpyP)(void* Dest, DWORD EDX, char* Source, int Count);
+typedef char* (__fastcall* strncpyP)(void* dest, DWORD EDX, char* source, int count);
 typedef void(__fastcall* addcoloredst)(graphicst_* gps, DWORD EDX, char* str, const char* colorstr);
-typedef void(__thiscall* addst)(graphicst_* gps, char* str, unsigned __int8 just, int space);
-typedef int* (__fastcall* append)(void* Src, DWORD EDX, char* text, size_t Size);
+typedef void(__thiscall* addst)(graphicst_* gps, string_* str, unsigned __int8 just, int space);
+typedef int* (__fastcall* append)(void* src, DWORD EDX, char* text, size_t size);
 
 typedef int(__thiscall* count)(set_* this_, int* elem);
 typedef void(__thiscall* clear_)(set_* begin, set_* end);

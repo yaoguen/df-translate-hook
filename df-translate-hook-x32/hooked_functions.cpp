@@ -4,13 +4,13 @@
 
 // Set address function from df.exe
 SETUP_ORIG_FUNC(strncpyP, 0xa130);
-char* __fastcall h(strncpyP)(void* Dest, DWORD EDX, char* Source, int Count)
+char* __fastcall h(strncpyP)(void* dest, const DWORD EDX, char* source, int count)
 {
-	if (DictSearch(Source)) {
-		Count = strlen(Source);
+	if (DictSearch(source)) {
+		count = strlen(source);
 	}
 	
-	return o(strncpyP)(Dest, EDX, Source, Count);
+	return o(strncpyP)(dest, EDX, source, count);
 }
 
 
@@ -31,11 +31,11 @@ void __fastcall h(addcoloredst)(graphicst_* gps, DWORD EDX, char* str, const cha
 		memcpy(string.buf, str, 16);
 	}
 
-	gps->screenf = (colorstr[0] & 7);
-	gps->screenb = ((colorstr[0] & 56)) >> 3;
-	gps->screenbright = ((colorstr[0] & 64)) >> 6;
+	gps->screenf = colorstr[0] & 7;
+	gps->screenb = (colorstr[0] & 56) >> 3;
+	gps->screenbright = (colorstr[0] & 64) >> 6;
 
-	o(addst)(gps, (char*)&string, 0, 0);
+	o(addst)(gps, &string, 0, 0);
 }
 
 
@@ -188,11 +188,11 @@ char __fastcall h(standardstringentry)(string_* str, int maxlen, unsigned int fl
 
 
 SETUP_ORIG_FUNC(append, 0xA340);
-int* __fastcall h(append)(void* Src, DWORD EDX, char* text, size_t Size) {
+int* __fastcall h(append)(void* src, DWORD EDX, char* text, size_t size) {
 	if (DictSearch(text)) {
-		Size = strlen(text);
+		size = strlen(text);
 	}
-	return o(append)(Src, EDX, text, Size);
+	return o(append)(src, EDX, text, size);
 }
 
 
@@ -238,7 +238,7 @@ void LowerCast(char& s) {
 SETUP_ORIG_FUNC(upper_case_string, 0x11DC60);
 void __fastcall h(upper_case_string)(string_* str_)
 {
-	__asm { push ecx };
+	__asm { push ecx }
 
 	char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
 
@@ -259,14 +259,14 @@ void __fastcall h(upper_case_string)(string_* str_)
 		}
 	}
 
-	__asm { pop ecx };
+	__asm { pop ecx }
 }
 
 
 SETUP_ORIG_FUNC(simplify_string, 0x11D940);
 void __fastcall h(simplify_string)(string_* str_)
 {
-	__asm { push ecx };
+	__asm { push ecx }
 
 	char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
 	int32_t s;
@@ -329,14 +329,14 @@ void __fastcall h(simplify_string)(string_* str_)
 		}
 	}
 
-	__asm { pop ecx };
+	__asm { pop ecx }
 }
 
 
 SETUP_ORIG_FUNC(lower_case_string, 0x11DAD0);
 void __fastcall h(lower_case_string)(string_* str_)
 {
-	__asm { push ecx };
+	__asm { push ecx }
 
 	char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
 	int32_t s;
@@ -358,14 +358,14 @@ void __fastcall h(lower_case_string)(string_* str_)
 		}
 	}
 
-	__asm { pop ecx };
+	__asm { pop ecx }
 }
 
 
 SETUP_ORIG_FUNC(capitalize_string_words, 0x11DDE0);
 void __fastcall h(capitalize_string_words)(string_* str_)
 {
-	__asm { push ecx };
+	__asm { push ecx }
 
 	char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
 	char conf;
@@ -407,7 +407,7 @@ void __fastcall h(capitalize_string_words)(string_* str_)
 		}
 	}
 
-	__asm { pop ecx };
+	__asm { pop ecx }
 }
 
 

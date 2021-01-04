@@ -27,18 +27,18 @@ struct graphicst_ {
 	char screenbright;
 };
 
-typedef char* (__cdecl* strncpyP)(char* Dest, char* Source, size_t Count);
+typedef char* (__cdecl* strncpyP)(char* dest, char* source, size_t count);
 
 typedef void(__fastcall* addcoloredst_inline)(char* str, char* colorstr);
 typedef void(__fastcall* addcoloredst)(graphicst_* gps, char* str, char* colorstr);
-typedef void(__fastcall* addst)(graphicst_* gps, char* str, unsigned __int8 just, int space);
+typedef void(__fastcall* addst)(graphicst_* gps, string_* str, unsigned __int8 just, int space);
 
 typedef char(__fastcall* standardstringentry)(string_* str_, int maxlen, unsigned int flag, char* events);
 typedef __int64(__fastcall* count)(void* this_, __int64* elem);
 typedef __int64(__fastcall* resize)(char* this_, unsigned __int64 len);
 typedef void(__fastcall* clear)(void* this_);
 
-typedef __int64* (__fastcall* append)(void* Src, char* a2, size_t Size);
+typedef __int64* (__fastcall* append)(void* src, char* a2, size_t size);
 
 typedef void(__fastcall* upper_case_string)(string_* str_);
 typedef void(__fastcall* simplify_string)(string_* str_);

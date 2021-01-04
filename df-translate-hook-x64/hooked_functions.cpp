@@ -5,12 +5,12 @@
 // Set address function from df.exe
 
 SETUP_ORIG_FUNC(strncpyP, 0xC780);
-char* __cdecl h(strncpyP)(char* Dest, char* Source, size_t Count)
+char* __cdecl h(strncpyP)(char* dest, char* source, size_t count)
 {
-	if (DictSearch(Source)) {
-		Count = strlen(Source);
+	if (DictSearch(source)) {
+		count = strlen(source);
 	}
-	return o(strncpyP)(Dest, Source, Count);
+	return o(strncpyP)(dest, source, count);
 }
 
 SETUP_ORIG_FUNC(addst, 0x6EEB50);
@@ -18,7 +18,7 @@ SETUP_ORIG_FUNC(addcoloredst, 0x6EEA90);  // Искать по строке "REC"
 void __fastcall h(addcoloredst)(graphicst_* gps, char* str, char* colorstr)
 {
 	string_ string{};
-	unsigned int slen = strlen(str);
+	const unsigned int slen = strlen(str);
 	string.len = slen;
 
 	if (slen >= 16) {
@@ -30,11 +30,11 @@ void __fastcall h(addcoloredst)(graphicst_* gps, char* str, char* colorstr)
 		memcpy(string.buf, str, 16);
 	}
 
-	gps->screenf = (colorstr[0] & 7);
-	gps->screenb = ((colorstr[0] & 56)) >> 3;
-	gps->screenbright = ((colorstr[0] & 64)) >> 6;
+	gps->screenf = colorstr[0] & 7;
+	gps->screenb = (colorstr[0] & 56) >> 3;
+	gps->screenbright = (colorstr[0] & 64) >> 6;
 
-	o(addst)(gps, (char*)&string, 0, 0);
+	o(addst)(gps, &string, 0, 0);
 }
 
 SETUP_ORIG_FUNC(addcoloredst_inline, 0x976F99);		// Искать по строке "Text generation failed: "
@@ -167,11 +167,11 @@ char h(standardstringentry)(string_* str, int maxlen, unsigned int flag, void * 
 }
 
 SETUP_ORIG_FUNC(append, 0xC9F0);
-__int64* __fastcall h(append)(void* Src, char* text, size_t Size) {
+__int64* __fastcall h(append)(void* src, char* text, size_t size) {
 	if (DictSearch(text)) {
-		Size = strlen(text);
+		size = strlen(text);
 	}
-	return o(append)(Src, text, Size);
+	return o(append)(src, text, size);
 }
 
 void Capitalize(char& s)
@@ -305,8 +305,7 @@ SETUP_ORIG_FUNC(lower_case_string, 0x14B050);
 void __fastcall h(lower_case_string)(string_* str_)
 {
 	char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
-	int32_t s;
-	for (s = 0;s < str_->len;s++)
+	for (int s = 0;s < str_->len;s++)
 	{
 		// lovercast
 		LowerCast(str[s]);
@@ -330,7 +329,7 @@ SETUP_ORIG_FUNC(capitalize_string_words, 0x14B430);
 void __fastcall h(capitalize_string_words)(string_* str_)
 {
 	char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
-	for (int32_t s = 0;s < str_->len;s++)
+	for (int s = 0;s < str_->len;s++)
 	{
 		char conf = 0;
 		if (s > 0)
@@ -373,7 +372,7 @@ SETUP_ORIG_FUNC(capitalize_string_first_word, 0x14B6B0);
 void __fastcall h(capitalize_string_first_word)(string_* str_)
 {
 	char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
-	for (int32_t s = 0;s < str_->len;s++)
+	for (int s = 0;s < str_->len;s++)
 	{
 		char conf = 0;
 		if (s > 0)
@@ -433,10 +432,7 @@ void __fastcall h(capitalize_string_first_word)(string_* str_)
 SETUP_ORIG_FUNC_FNAME(TTF_RenderUNICODE_Blended, SDL_ttf.dll);
 char* h(TTF_RenderUNICODE_Blended)(char* font, uint16_t* text, SDL_Color fg) {
 	uint16_t* x = ChangeText(text);
-	if (x) {
-		return o(TTF_RenderUNICODE_Blended)(font, x, fg);
-	}
-	return o(TTF_RenderUNICODE_Blended)(font, text, fg);
+	return o(TTF_RenderUNICODE_Blended)(font, x ? x : text, fg);
 }
 
 SETUP_ORIG_FUNC_FNAME(TTF_SizeUNICODE, SDL_ttf.dll);

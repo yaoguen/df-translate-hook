@@ -51,12 +51,11 @@ size_t my_strlen16(uint16_t * s) {
 /* Функция, получающая исходный текст и передающая его на обработку скрипту*/
 EXPORT uint16_t * ChangeText(uint16_t * src) {
     static PyObject * pValue = nullptr;
-    PyObject * bytesUtf16;
 
     if(!initialized) Init();
 
     if(pfuncChangeText && pArgs) {
-        bytesUtf16 = PyBytes_FromStringAndSize((char*)src, my_strlen(src));
+        PyObject* bytesUtf16 = PyBytes_FromStringAndSize((char*)src, my_strlen(src));
         PyTuple_SetItem(pArgs, 0, bytesUtf16);
         Py_XDECREF(pValue);
         pValue = PyObject_CallObject(pfuncChangeText, pArgs);

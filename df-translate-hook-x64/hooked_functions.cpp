@@ -217,8 +217,7 @@ void __fastcall h(upper_case_string)(string_* str_)
 {
 	char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
 
-	int32_t s;
-	for (s = 0;s < str_->len;s++) {
+	for (int s = 0;s < str_->len;s++) {
 		//CAPITALIZE
 		Capitalize(str[s]);
 
@@ -240,7 +239,7 @@ SETUP_ORIG_FUNC(simplify_string, 0x14AE60);
 void __fastcall h(simplify_string)(string_* str_)
 {
 	char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
-	for (int32_t s = 0;s < str_->len;s++)
+	for (int s = 0;s < str_->len;s++)
 	{
 		//CAPITALIZE
 		LowerCast(str[s]);

@@ -13,8 +13,8 @@ char* __cdecl h(strncpyP)(char* dest, char* source, size_t count)
 	return o(strncpyP)(dest, source, count);
 }
 
-SETUP_ORIG_FUNC(addst, 0x6EEB50);
-SETUP_ORIG_FUNC(addcoloredst, 0x6EEA90);  // Искать по строке "REC"
+SETUP_ORIG_FUNC(addst, 0x6EF010);
+SETUP_ORIG_FUNC(addcoloredst, 0x6EEF50);  // Искать по строке "REC"
 void __fastcall h(addcoloredst)(graphicst_* gps, char* str, char* colorstr)
 {
 	string_ string{};
@@ -37,18 +37,18 @@ void __fastcall h(addcoloredst)(graphicst_* gps, char* str, char* colorstr)
 	o(addst)(gps, &string, 0, 0);
 }
 
-SETUP_ORIG_FUNC(addcoloredst_inline, 0x976F99);		// Искать по строке "Text generation failed: "
+SETUP_ORIG_FUNC(addcoloredst_inline, 0x977D98);		// Искать по строке "Text generation failed: "
 void __fastcall h(addcoloredst_inline)(char* str, char* colorstr)
 {
-	graphicst_* gps = (graphicst_*)GET_ADDR(0x126F220);
+	graphicst_* gps = (graphicst_*)GET_ADDR(0x1271220);
 	h(addcoloredst)(gps, str, colorstr);
 }
 
 SETUP_ORIG_FUNC(count, 0x71050);
 SETUP_ORIG_FUNC(resize, 0x713A0);
 SETUP_ORIG_FUNC(clear, 0x710E0);
-SETUP_ORIG_FUNC(standardstringentry, 0x7CF0C0);
-char h(standardstringentry)(string_* str, int maxlen, unsigned int flag, void * events)
+SETUP_ORIG_FUNC(standardstringentry, 0x7CF640);
+char h(standardstringentry)(string_* str, int maxlen, unsigned int flag, void* events)
 {
 	char* str_i = str->capa >= 16 ? str->ptr : str->buf;
 
@@ -203,7 +203,7 @@ void LowerCast(char& s) {
 	{
 		s -= (BYTE)'А';
 		s += (BYTE)'а';
-}
+	}
 	if ((BYTE)s == (BYTE)'Ё')
 	{
 		s -= (BYTE)'Ё';
@@ -217,19 +217,19 @@ void __fastcall h(upper_case_string)(string_* str_)
 {
 	char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
 
-	for (int s = 0;s < str_->len;s++) {
+	for (int s = 0; s < str_->len; s++) {
 		//CAPITALIZE
 		Capitalize(str[s]);
 
 		switch (str[s]) {
-		case (char)129:str[s] = (char)154;break;
-		case (char)164:str[s] = (char)165;break;
-		case (char)132:str[s] = (char)142;break;
-		case (char)134:str[s] = (char)143;break;
-		case (char)130:str[s] = (char)144;break;
-		case (char)148:str[s] = (char)153;break;
-		case (char)135:str[s] = (char)128;break;
-		case (char)145:str[s] = (char)146;break;
+		case (char)129:str[s] = (char)154; break;
+		case (char)164:str[s] = (char)165; break;
+		case (char)132:str[s] = (char)142; break;
+		case (char)134:str[s] = (char)143; break;
+		case (char)130:str[s] = (char)144; break;
+		case (char)148:str[s] = (char)153; break;
+		case (char)135:str[s] = (char)128; break;
+		case (char)145:str[s] = (char)146; break;
 		}
 	}
 }
@@ -239,7 +239,7 @@ SETUP_ORIG_FUNC(simplify_string, 0x14AE60);
 void __fastcall h(simplify_string)(string_* str_)
 {
 	char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
-	for (int s = 0;s < str_->len;s++)
+	for (int s = 0; s < str_->len; s++)
 	{
 		//CAPITALIZE
 		LowerCast(str[s]);
@@ -304,21 +304,21 @@ SETUP_ORIG_FUNC(lower_case_string, 0x14B050);
 void __fastcall h(lower_case_string)(string_* str_)
 {
 	char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
-	for (int s = 0;s < str_->len;s++)
+	for (int s = 0; s < str_->len; s++)
 	{
 		// lovercast
 		LowerCast(str[s]);
 
 		switch (str[s])
 		{
-		case (char)154:str[s] = (char)129;break;
-		case (char)165:str[s] = (char)164;break;
-		case (char)142:str[s] = (char)132;break;
-		case (char)143:str[s] = (char)134;break;
-		case (char)144:str[s] = (char)130;break;
-		case (char)153:str[s] = (char)148;break;
-		case (char)128:str[s] = (char)135;break;
-		case (char)146:str[s] = (char)145;break;
+		case (char)154:str[s] = (char)129; break;
+		case (char)165:str[s] = (char)164; break;
+		case (char)142:str[s] = (char)132; break;
+		case (char)143:str[s] = (char)134; break;
+		case (char)144:str[s] = (char)130; break;
+		case (char)153:str[s] = (char)148; break;
+		case (char)128:str[s] = (char)135; break;
+		case (char)146:str[s] = (char)145; break;
 		}
 	}
 }
@@ -328,7 +328,7 @@ SETUP_ORIG_FUNC(capitalize_string_words, 0x14B430);
 void __fastcall h(capitalize_string_words)(string_* str_)
 {
 	char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
-	for (int s = 0;s < str_->len;s++)
+	for (int s = 0; s < str_->len; s++)
 	{
 		char conf = 0;
 		if (s > 0)
@@ -353,14 +353,14 @@ void __fastcall h(capitalize_string_words)(string_* str_)
 
 			switch (str[s])
 			{
-			case (char)129:str[s] = (char)154;break;
-			case (char)164:str[s] = (char)165;break;
-			case (char)132:str[s] = (char)142;break;
-			case (char)134:str[s] = (char)143;break;
-			case (char)130:str[s] = (char)144;break;
-			case (char)148:str[s] = (char)153;break;
-			case (char)135:str[s] = (char)128;break;
-			case (char)145:str[s] = (char)146;break;
+			case (char)129:str[s] = (char)154; break;
+			case (char)164:str[s] = (char)165; break;
+			case (char)132:str[s] = (char)142; break;
+			case (char)134:str[s] = (char)143; break;
+			case (char)130:str[s] = (char)144; break;
+			case (char)148:str[s] = (char)153; break;
+			case (char)135:str[s] = (char)128; break;
+			case (char)145:str[s] = (char)146; break;
 			}
 		}
 	}
@@ -371,7 +371,7 @@ SETUP_ORIG_FUNC(capitalize_string_first_word, 0x14B6B0);
 void __fastcall h(capitalize_string_first_word)(string_* str_)
 {
 	char* str = str_->capa >= 16 ? str_->ptr : str_->buf;
-	for (int s = 0;s < str_->len;s++)
+	for (int s = 0; s < str_->len; s++)
 	{
 		char conf = 0;
 		if (s > 0)
@@ -413,14 +413,14 @@ void __fastcall h(capitalize_string_first_word)(string_* str_)
 
 			switch (str[s])
 			{
-			case (char)129:str[s] = (char)154;return;
-			case (char)164:str[s] = (char)165;return;
-			case (char)132:str[s] = (char)142;return;
-			case (char)134:str[s] = (char)143;return;
-			case (char)130:str[s] = (char)144;return;
-			case (char)148:str[s] = (char)153;return;
-			case (char)135:str[s] = (char)128;return;
-			case (char)145:str[s] = (char)146;return;
+			case (char)129:str[s] = (char)154; return;
+			case (char)164:str[s] = (char)165; return;
+			case (char)132:str[s] = (char)142; return;
+			case (char)134:str[s] = (char)143; return;
+			case (char)130:str[s] = (char)144; return;
+			case (char)148:str[s] = (char)153; return;
+			case (char)135:str[s] = (char)128; return;
+			case (char)145:str[s] = (char)146; return;
 			}
 			if (str[s] != ' ' && str[s] != '\"')return;
 		}
@@ -469,14 +469,14 @@ void ReworkFunctions()
 	//Fix inline addcoloredst 
 	Sleep(10);
 	PVOID addr;
-	addr = GET_ADDR(0x976F91);
+	addr = GET_ADDR(0x977D91);
 	char b1[] = { 0x51,					// push rcx
 		0x48, 0x8B, 0xCE,				// mov rcx, rsi
 		0x48, 0x8D, 0x55, 0x90, 0xE8 	// lea rdx, ss:[rbp-0x70]
 	};
 	ChangeBytesAtAddr(addr, b1, 9);
 
-	addr = GET_ADDR(0x976F9E);
+	addr = GET_ADDR(0x977D9E);
 	char b2[] = { 0x59,					// pop rcx
 		0xEB, 0x6F						// jmp $+0x6F
 	};

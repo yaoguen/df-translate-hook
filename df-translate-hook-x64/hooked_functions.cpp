@@ -37,7 +37,7 @@ void __fastcall h(addcoloredst)(graphicst_* gps, char* str, char* colorstr)
 	o(addst)(gps, &string, 0, 0);
 }
 
-SETUP_ORIG_FUNC(addcoloredst_inline, 0x977D98);		// Искать по строке "Text generation failed: "
+SETUP_ORIG_FUNC(addcoloredst_inline, 0x977D99);		// Искать по строке "Text generation failed: "
 void __fastcall h(addcoloredst_inline)(char* str, char* colorstr)
 {
 	graphicst_* gps = (graphicst_*)GET_ADDR(0x1271220);

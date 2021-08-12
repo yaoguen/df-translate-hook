@@ -150,10 +150,10 @@ int main() {
 
 	// cmp .., 'a'
 	// jl adr  ->> jbe adr
-	PatchingBytesInEXE(exepath, 0x0630bb0, new BYTE[1]{0x76}, 1);
+	PatchingBytesInEXE(exepath, 0x0631070, new BYTE[1]{0x76}, 1);
 	// cmp .., 'z' ->> cmp .., 'я'
 	// jg adr  ->> ja adr
-	PatchingBytesInEXE(exepath, 0x00630bc1, new BYTE[2]{0xFF, 0x77}, 2);
+	PatchingBytesInEXE(exepath, 0x631081, new BYTE[2]{0xFF, 0x77}, 2);
 
 
 	// Patching unicode table
@@ -182,7 +182,7 @@ int main() {
 		 0x00, 0x00, 0x4a, 0x04, 0x00, 0x00, 0x4b, 0x04, 0x00, 0x00, 0x4c, 0x04, 0x00, 0x00, 0x4d, 0x04,
 		 0x00, 0x00, 0x4e, 0x04, 0x00, 0x00, 0x4f, 0x04 };
 
-	PatchingBytesInEXE(exepath, 0x00e786e8, bytes, sizeof(bytes));
+	PatchingBytesInEXE(exepath, 0xe79ce8, bytes, sizeof(bytes));
 
 	CreateExeWithDllImport(exepath, dllpath);
 	printf("Success!\n");

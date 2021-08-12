@@ -14,8 +14,8 @@ char* __fastcall h(strncpyP)(void* dest, const DWORD EDX, char* source, int coun
 }
 
 
-SETUP_ORIG_FUNC(addcoloredst, 0x5E5620);
-SETUP_ORIG_FUNC(addst, 0x5e56a0);
+SETUP_ORIG_FUNC(addcoloredst, 0x5E5BB0);
+SETUP_ORIG_FUNC(addst, 0x5E5C30);
 void __fastcall h(addcoloredst)(graphicst_* gps, DWORD EDX, char* str, const char* colorstr)
 {
 	string_ string{};
@@ -67,7 +67,7 @@ void resize(string_* str, int size, char let) {
 
 
 SETUP_ORIG_FUNC(count, 0x5A680);
-SETUP_ORIG_FUNC(standardstringentry, 0x6984F0);
+SETUP_ORIG_FUNC(standardstringentry, 0x698AF0);
 char __fastcall h(standardstringentry)(string_* str, int maxlen, unsigned int flag, set_* events)
 {
 	char* str_i = str->capa >= 16 ? str->ptr : str->buf;
@@ -499,7 +499,6 @@ void AttachFunctions()
 	ATTACH(capitalize_string_first_word);
 
 	ATTACH(TTF_RenderUNICODE_Blended);
-	printf("%p\n", o(TTF_RenderUNICODE_Blended));
 	//ATTACH(TTF_SizeUNICODE);
 	//printf("%p\n", o(TTF_SizeUNICODE));
 }

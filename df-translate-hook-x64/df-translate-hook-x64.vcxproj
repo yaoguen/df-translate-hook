@@ -146,8 +146,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)$(Configuration)\$(Platform)</OutDir>
-    <IncludePath>F:\Data\Python39\include;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\Data\Python39\libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\Data\Python34\include;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\Data\Python34\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release64|x64'">
     <LinkIncremental>false</LinkIncremental>

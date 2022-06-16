@@ -33,9 +33,6 @@ EXPORT int Init() {
     return pfuncChangeText!= nullptr;
 }
 
-#define BUFFER_SIZE 0x100
-uint16_t buffer[BUFFER_SIZE];
-
 size_t my_strlen(uint16_t * s) {
     size_t i;
     for(i=0; s[i]; i++);

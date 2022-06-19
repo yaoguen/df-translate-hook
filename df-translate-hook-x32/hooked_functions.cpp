@@ -66,16 +66,32 @@ void resize(string_* str, int size, char let) {
 }
 
 
+// WARNING!!! If you change the standardstringentry function,
+// you must correct the offset addresses in ReworkFunctions.
 SETUP_ORIG_FUNC(count, 0x5A680);
 SETUP_ORIG_FUNC(standardstringentry, 0x698AF0);
 char __fastcall h(standardstringentry)(string_* str, int maxlen, unsigned int flag, set_* events)
 {
 	char* str_i = str->capa >= 16 ? str->ptr : str->buf;
 
-	unsigned char entry = 255;
+	unsigned char entry = 1;
 	unsigned char cont;
 	int count_arg;
 	unsigned short int item;
+	if (flag & STRINGENTRY_SYMBOLS)
+	{
+		cont = 0;
+		for (item = INTERFACEKEY_STRING_A000; item <= INTERFACEKEY_STRING_A255; item++)
+		{
+			count_arg = item;
+			if (o(count)(events, &count_arg))
+			{
+				entry = cont;
+				break;
+			}
+			cont++;
+		}
+	}
 	if (flag & STRINGENTRY_LETTERS)
 	{
 		count_arg = INTERFACEKEY_STRING_A168;
@@ -83,7 +99,7 @@ char __fastcall h(standardstringentry)(string_* str, int maxlen, unsigned int fl
 		count_arg = INTERFACEKEY_STRING_A184;
 		if (o(count)(events, &count_arg)) entry = 184;//ё
 		cont = (BYTE)'А'; // cyrillic A
-		for (item = INTERFACEKEY_STRING_A192; item <= INTERFACEKEY_STRING_A255 + 5; item++)//все русские буквы
+		for (item = INTERFACEKEY_STRING_A192; item <= INTERFACEKEY_STRING_A255; item++)//все русские буквы
 		{
 			count_arg = item;
 			if (o(count)(events, &count_arg))
@@ -136,22 +152,7 @@ char __fastcall h(standardstringentry)(string_* str, int maxlen, unsigned int fl
 			cont++;
 		}
 	}
-	if (flag & STRINGENTRY_SYMBOLS)
-	{
-		cont = 0;
-		for (item = INTERFACEKEY_STRING_A000; item <= INTERFACEKEY_STRING_A255; item++)
-		{
-			count_arg = item;
-			if (o(count)(events, &count_arg))
-			{
-				entry = cont;
-				break;
-			}
-			cont++;
-		}
-	}
-
-	if (entry != 255)
+	if (entry != 1)
 	{
 		if (entry == '\x0')
 		{
@@ -509,5 +510,5 @@ void ReworkFunctions()
 	Sleep(10);
 	char buf[] = { 0xC3,	0x90, 0x90 };	// ret
 	// WARNING!!! If you change the standardstringentry function, you must correct the offset addresses.
-	ChangeBytesAtAddr((char*)h(standardstringentry)+0x36F, buf, 3);
+	ChangeBytesAtAddr((char*)h(standardstringentry)+0x36D, buf, 3);
 }

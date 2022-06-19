@@ -52,10 +52,24 @@ char h(standardstringentry)(string_* str, int maxlen, unsigned int flag, void* e
 {
 	char* str_i = str->capa >= 16 ? str->ptr : str->buf;
 
-	unsigned char entry = 255;
+	unsigned char entry = 1;
 	unsigned char cont;
 	__int64 count_arg;
 	unsigned short int item;
+	if (flag & STRINGENTRY_SYMBOLS)
+	{
+		cont = 0;
+		for (item = INTERFACEKEY_STRING_A000; item <= INTERFACEKEY_STRING_A255; item++)
+		{
+			count_arg = item;
+			if (o(count)(events, &count_arg))
+			{
+				entry = cont;
+				break;
+			}
+			cont++;
+		}
+	}
 	if (flag & STRINGENTRY_LETTERS)
 	{
 		count_arg = INTERFACEKEY_STRING_A168;
@@ -63,7 +77,7 @@ char h(standardstringentry)(string_* str, int maxlen, unsigned int flag, void* e
 		count_arg = INTERFACEKEY_STRING_A184;
 		if (o(count)(events, &count_arg)) entry = 184;//ё
 		cont = (BYTE)'А'; // cyrillic A
-		for (item = INTERFACEKEY_STRING_A192; item <= INTERFACEKEY_STRING_A255 + 5; item++)//все русские буквы
+		for (item = INTERFACEKEY_STRING_A192; item <= INTERFACEKEY_STRING_A255; item++)//все русские буквы
 		{
 			count_arg = item;
 			if (o(count)(events, &count_arg))
@@ -116,22 +130,8 @@ char h(standardstringentry)(string_* str, int maxlen, unsigned int flag, void* e
 			cont++;
 		}
 	}
-	if (flag & STRINGENTRY_SYMBOLS)
-	{
-		cont = 0;
-		for (item = INTERFACEKEY_STRING_A000; item <= INTERFACEKEY_STRING_A255; item++)
-		{
-			count_arg = item;
-			if (o(count)(events, &count_arg))
-			{
-				entry = cont;
-				break;
-			}
-			cont++;
-		}
-	}
 
-	if (entry != 255)
+	if (entry != 1)
 	{
 		if (entry == '\x0')
 		{
